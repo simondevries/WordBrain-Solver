@@ -1,0 +1,6 @@
+c:\users\simon\documents\visual studio 2015\Projects\WordBrainSolver\WordBrainSolver\bin\Debug\WordBrainSolver.exe.config
+c:\users\simon\documents\visual studio 2015\Projects\WordBrainSolver\WordBrainSolver\bin\Debug\WordBrainSolver.exe
+c:\users\simon\documents\visual studio 2015\Projects\WordBrainSolver\WordBrainSolver\bin\Debug\WordBrainSolver.pdb
+c:\users\simon\documents\visual studio 2015\Projects\WordBrainSolver\WordBrainSolver\obj\Debug\WordBrainSolver.csprojResolveAssemblyReference.cache
+c:\users\simon\documents\visual studio 2015\Projects\WordBrainSolver\WordBrainSolver\obj\Debug\WordBrainSolver.exe
+c:\users\simon\documents\visual studio 2015\Projects\WordBrainSolver\WordBrainSolver\obj\Debug\WordBrainSolver.pdb
