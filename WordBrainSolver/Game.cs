@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,12 +14,12 @@ namespace WordBrainSolver
 
         public Game()
         {
-            Console.WriteLine("Enter Grid Size");
+            Console.WriteLine("Enter Grid Size, for example '3' or '4'");
             int gridSize = Convert.ToInt32(Console.ReadLine());
             board = new char[gridSize, gridSize];
             array = new string[gridSize];
 
-            Console.WriteLine("Enter Board");
+            Console.WriteLine("Enter Board from left to right top to bottom");
             string readLine = Console.ReadLine();
 
             for (int i = 0; i < gridSize; i++)
