@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace WordBrainSolver
 {
     class Game
     {
+        private const string DictionaryFileName = "wordsSorted.csv";
+        private const string ResourcesFolderName = "Resources";
         private string[] array; //= { "HFE", "RLR", "USI" };
         private char[,] board;// = new char[GRID_SIZE, GRID_SIZE];
         private List<string> wordsFound = new List<string>();
@@ -108,8 +111,19 @@ namespace WordBrainSolver
 
         private void GetDictionary()
         {
-            string text = System.IO.File.ReadAllText(@"C:\Users\simon\Desktop\wordsSorted.csv");
-            dictionary = text.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+            string dictionaryContent;
+            string dictionaryPath = Path.Combine(Directory.GetCurrentDirectory(), $@"{ResourcesFolderName}\{DictionaryFileName}");
+
+            if (!File.Exists(dictionaryPath))
+            {
+                throw new FileNotFoundException($"'{DictionaryFileName}' file was not found.");
+            }
+
+            using (StreamReader streamReader = new StreamReader(dictionaryPath))
+            {
+                dictionaryContent = streamReader.ReadToEnd();
+            }
+            dictionary = dictionaryContent.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
         }
 
         private void FindWords(List<string> wordsFound, List<Point> visitedPoints, int lives, int x, int y, string currentWord, int gridSize)
