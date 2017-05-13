@@ -5,42 +5,20 @@ using System.Linq;
 
 namespace WordBrainSolver
 {
-    class Game
+    public class Game
     {
         private const string DictionaryFileName = "wordsSorted.csv";
         private const string ResourcesFolderName = "Resources";
-        private string[] array; //= { "HFE", "RLR", "USI" };
-        private char[,] board;// = new char[GRID_SIZE, GRID_SIZE];
+        private string[] array;
         private List<string> wordsFound = new List<string>();
         private List<Point> visitedPoints = new List<Point>();
         private string[] dictionary;
 
-        public Game()
+        public List<string> RunGame(int lives, int gridSize, string inputBoard)
         {
-            Console.WriteLine("Enter Grid Size, for example '3' or '4'");
-            int gridSize = Convert.ToInt32(Console.ReadLine());
-            board = new char[gridSize, gridSize];
-            array = new string[gridSize];
+            char[,] board = InitBoard(inputBoard, gridSize);
 
-            Console.WriteLine("Enter Board from left to right top to bottom");
-            string readLine = Console.ReadLine();
-
-            for (int i = 0; i < gridSize; i++)
-            {
-                array[i] = readLine.Substring(i*gridSize, gridSize);
-            }
-
-            Console.WriteLine("Enter Word Length");
-            int lives = Convert.ToInt32(Console.ReadLine());
-
-            RunGame(lives, gridSize);
-        }
-
-        public void RunGame(int lives, int gridSize)
-        {
-            InitBoard();
-
-            GenerateFoundWords(lives, gridSize);
+            GenerateFoundWords(lives, gridSize, board);
 
             wordsFound = SortAndDistinctList(wordsFound);
 
@@ -54,6 +32,8 @@ namespace WordBrainSolver
             {
                 Console.WriteLine("" + w);
             }
+
+            return possibleWords;
         }
 
         private List<string> GetPossibleWords()
@@ -86,13 +66,13 @@ namespace WordBrainSolver
             return possibleWords;
         }
 
-        private void GenerateFoundWords(int lives, int gridSize)
+        private void GenerateFoundWords(int lives, int gridSize, char[,] board)
         {
             for (int i = 0; i < gridSize; i++)
             {
                 for (int j = 0; j < gridSize; j++)
                 {
-                    FindWords(wordsFound, visitedPoints, lives, i, j, String.Empty, gridSize);
+                    FindWords(wordsFound, visitedPoints, lives, i, j, String.Empty, gridSize, board);
                     visitedPoints.Clear();
                 }
             }
@@ -126,7 +106,7 @@ namespace WordBrainSolver
             dictionary = dictionaryContent.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
         }
 
-        private void FindWords(List<string> wordsFound, List<Point> visitedPoints, int lives, int x, int y, string currentWord, int gridSize)
+        private void FindWords(List<string> wordsFound, List<Point> visitedPoints, int lives, int x, int y, string currentWord, int gridSize, char[,] board)
         {
 
             //Case 1- Goes off grid
@@ -152,33 +132,38 @@ namespace WordBrainSolver
 
             // todo get rid of gross cloning
             List<Point> clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x - 1, y - 1, currentWord, gridSize);
+            FindWords(wordsFound, clonedPoints, lives, x - 1, y - 1, currentWord, gridSize, board);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x, y - 1, currentWord, gridSize);
+            FindWords(wordsFound, clonedPoints, lives, x, y - 1, currentWord, gridSize, board);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x + 1, y - 1, currentWord, gridSize);
+            FindWords(wordsFound, clonedPoints, lives, x + 1, y - 1, currentWord, gridSize, board);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x - 1, y, currentWord, gridSize);
+            FindWords(wordsFound, clonedPoints, lives, x - 1, y, currentWord, gridSize, board);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x + 1, y, currentWord, gridSize);
+            FindWords(wordsFound, clonedPoints, lives, x + 1, y, currentWord, gridSize, board);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x - 1, y + 1, currentWord, gridSize);
+            FindWords(wordsFound, clonedPoints, lives, x - 1, y + 1, currentWord, gridSize, board);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x, y + 1, currentWord, gridSize);
+            FindWords(wordsFound, clonedPoints, lives, x, y + 1, currentWord, gridSize, board);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x + 1, y + 1, currentWord, gridSize);
+            FindWords(wordsFound, clonedPoints, lives, x + 1, y + 1, currentWord, gridSize, board);
 
             currentWord.Remove(currentWord.Length - 1);
         }
 
-        private void InitBoard()
+        private char[,] InitBoard(string inputBoard, int gridSize)
         {
+            char[,] outputBoard = new char[gridSize, gridSize];
 
-            for (int i = 0; i < array.Length; i++)
-                for (int j = 0; j < array[i].Length; j++)
+            for (int i = 0; i < gridSize; i++)
+            {
+                for (int j = 0; j < gridSize; j++)
                 {
-                    board[i, j] = array[i][j];
+                    outputBoard[i, j] = Convert.ToChar(inputBoard.Substring(i * gridSize + j, 1));
                 }
+            }
+
+            return outputBoard;
         }
     }
 }
