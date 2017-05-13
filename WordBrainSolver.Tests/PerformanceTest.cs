@@ -22,13 +22,13 @@ namespace WordBrainSolver.Tests
         {
             List<TestCase> testCases = new List<TestCase>()
             {
-                //new TestCase {Board = "btleexffoiretahs", Lives = 5, GridSize = 4},
-                //new TestCase {Board = "btleexffoiretahs", Lives = 4, GridSize = 4},
-                //new TestCase {Board = "reocutbrcwrmipoo", Lives = 7, GridSize = 4},
-                //new TestCase {Board = "reocutbrcwrmipoo", Lives = 3, GridSize = 4},
-                //new TestCase {Board = "cphtealscueoshog", Lives = 8, GridSize = 4},
-                //new TestCase {Board = "ullkkssoc", Lives = 5, GridSize = 3},
-                //new TestCase {Board = "ullkkssoc", Lives = 3, GridSize = 3},
+                new TestCase {Board = "btleexffoiretahs", Lives = 5, GridSize = 4},
+                new TestCase {Board = "btleexffoiretahs", Lives = 4, GridSize = 4},
+                new TestCase {Board = "reocutbrcwrmipoo", Lives = 7, GridSize = 4},
+                new TestCase {Board = "reocutbrcwrmipoo", Lives = 3, GridSize = 4},
+                new TestCase {Board = "cphtealscueoshog", Lives = 8, GridSize = 4},
+                new TestCase {Board = "ullkkssoc", Lives = 5, GridSize = 3},
+                new TestCase {Board = "ullkkssoc", Lives = 3, GridSize = 3},
                 new TestCase {Board = "ullkkssoc", Lives = 4, GridSize = 3},
             };
 

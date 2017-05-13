@@ -56,9 +56,9 @@
     <Compile Include="TestResultsSaver.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WordBrainSolver\WordBrainSolver.csproj">
+    <ProjectReference Include="..\WordBrainSolver\WordBrainSolver.Core.csproj">
       <Project>{800072cb-30a5-401d-a409-32640c5c7b52}</Project>
-      <Name>WordBrainSolver</Name>
+      <Name>WordBrainSolver.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
