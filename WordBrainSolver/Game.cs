@@ -91,18 +91,21 @@ namespace WordBrainSolver
 
         private void GetDictionary()
         {
-            string dictionaryContent;
-            string dictionaryPath = Path.Combine(Directory.GetCurrentDirectory(), $@"{ResourcesFolderName}\{DictionaryFileName}");
+//            string dictionaryContent;
+//            string dictionaryPath = Path.Combine(Directory.GetCurrentDirectory(), $@"{ResourcesFolderName}\{DictionaryFileName}");
+//
+//            if (!File.Exists(dictionaryPath))
+//            {
+//                throw new FileNotFoundException($"'{DictionaryFileName}' file was not found.");
+//            }
+//
+//            using (StreamReader streamReader = new StreamReader(dictionaryPath))
+//            {
+//                dictionaryContent = streamReader.ReadToEnd();
+//            }
 
-            if (!File.Exists(dictionaryPath))
-            {
-                throw new FileNotFoundException($"'{DictionaryFileName}' file was not found.");
-            }
+            string dictionaryContent = new DictionaryRetriever().GetDictionary();
 
-            using (StreamReader streamReader = new StreamReader(dictionaryPath))
-            {
-                dictionaryContent = streamReader.ReadToEnd();
-            }
             dictionary = dictionaryContent.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
         }
 

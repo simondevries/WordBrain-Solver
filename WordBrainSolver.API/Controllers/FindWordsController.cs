@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
 
 namespace WordBrainSolver.API.Controllers
 {
-    public class FindWordsController : Controller
+    [AllowCrossSiteJson]
+    public class FindWordsController : ApiController
     {
         // GET api/<controller>
         public IEnumerable<string> Get()

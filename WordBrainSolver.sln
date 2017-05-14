@@ -13,20 +13,27 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		web.config|Any CPU = web.config|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{800072CB-30A5-401D-A409-32640C5C7B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{800072CB-30A5-401D-A409-32640C5C7B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{800072CB-30A5-401D-A409-32640C5C7B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{800072CB-30A5-401D-A409-32640C5C7B52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{800072CB-30A5-401D-A409-32640C5C7B52}.web.config|Any CPU.ActiveCfg = web.config|Any CPU
+		{800072CB-30A5-401D-A409-32640C5C7B52}.web.config|Any CPU.Build.0 = web.config|Any CPU
 		{D2BDBAB4-AA05-4688-9A51-61A4651BA602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D2BDBAB4-AA05-4688-9A51-61A4651BA602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2BDBAB4-AA05-4688-9A51-61A4651BA602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2BDBAB4-AA05-4688-9A51-61A4651BA602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2BDBAB4-AA05-4688-9A51-61A4651BA602}.web.config|Any CPU.ActiveCfg = Release|Any CPU
+		{D2BDBAB4-AA05-4688-9A51-61A4651BA602}.web.config|Any CPU.Build.0 = Release|Any CPU
 		{A2ECBC66-FD4A-4D12-84D2-02B36AACB041}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A2ECBC66-FD4A-4D12-84D2-02B36AACB041}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2ECBC66-FD4A-4D12-84D2-02B36AACB041}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2ECBC66-FD4A-4D12-84D2-02B36AACB041}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2ECBC66-FD4A-4D12-84D2-02B36AACB041}.web.config|Any CPU.ActiveCfg = Release|Any CPU
+		{A2ECBC66-FD4A-4D12-84D2-02B36AACB041}.web.config|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
