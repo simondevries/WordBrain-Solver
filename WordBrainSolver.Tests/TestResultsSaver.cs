@@ -14,9 +14,8 @@ namespace WordBrainSolver.Tests
             string resultsFormatted = string.Empty;
             foreach (string result in results)
             {
-                resultsFormatted += string.Join(";", result);
+                resultsFormatted += ";" + result;
             }
-
 
             string text = string.Format("{0},{1},{2},{3},{4}, {5}, {6}", DateTime.Now, testCase.Board, testCase.GridSize, testCase.Lives, time, resultsFormatted, Environment.MachineName);
 

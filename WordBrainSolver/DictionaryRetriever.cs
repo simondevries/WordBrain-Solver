@@ -7,11 +7,26 @@ namespace WordBrainSolver
 {
     public class DictionaryRetriever
     {
+        private const string DictionaryFileName = "wordsSorted.csv";
+        private const string ResourcesFolderName = "Resources";
+
         public string GetDictionary()
         {
-            //todo Sdv this should not need to download every time
+            string dictionaryPath = Path.Combine(Directory.GetCurrentDirectory(), $@"{ResourcesFolderName}\{DictionaryFileName}");
 
+            if (!File.Exists(dictionaryPath))
+            {
+                DownloadDictionary(dictionaryPath);
+            }
 
+            using (StreamReader streamReader = new StreamReader(dictionaryPath))
+            {
+                return streamReader.ReadToEnd();
+            }
+        }
+
+        private void DownloadDictionary(string dictionaryPath)
+        {
             // Retrieve storage account from connection string.
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
                 ConfigurationManager.AppSettings.Get("StorageConnectionString"));
@@ -31,7 +46,11 @@ namespace WordBrainSolver
                 blockBlob2.DownloadToStream(memoryStream);
                 text = System.Text.Encoding.UTF8.GetString(memoryStream.ToArray());
             }
-            return text;
+
+            using (StreamWriter streamReader = new StreamWriter(dictionaryPath))
+            {
+                streamReader.Write(text);
+            }
         }
     }
 }

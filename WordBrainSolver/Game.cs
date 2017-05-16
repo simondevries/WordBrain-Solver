@@ -7,24 +7,31 @@ namespace WordBrainSolver
 {
     public class Game
     {
-        private const string DictionaryFileName = "wordsSorted.csv";
-        private const string ResourcesFolderName = "Resources";
-        private string[] array;
         private List<string> wordsFound = new List<string>();
         private List<Point> visitedPoints = new List<Point>();
-        private string[] dictionary;
+        private SubDictionaryGenerator _subDictionaryGenerator;
+        private DictionaryRetriever _dictionaryRetriever;
+        private const int BrootForceSearchLimit = 3;
+
+        public Game()
+        {
+            _subDictionaryGenerator = new SubDictionaryGenerator();
+            _dictionaryRetriever = new DictionaryRetriever();
+        }
 
         public List<string> RunGame(int lives, int gridSize, string inputBoard)
         {
             char[,] board = InitBoard(inputBoard, gridSize);
 
-            GenerateFoundWords(lives, gridSize, board);
+            string[] dictionary = GetDictionary();
+
+            Dictionary<string, List<string>> subDictionary = _subDictionaryGenerator.GenerateSubDictionary(lives, dictionary, BrootForceSearchLimit);
+
+            GenerateFoundWords(lives, gridSize, board, subDictionary);
 
             wordsFound = SortAndDistinctList(wordsFound);
 
-            GetDictionary();
-
-            List<string> possibleWords = GetPossibleWords();
+            List<string> possibleWords = GetPossibleWords(dictionary);
 
             possibleWords = SortAndDistinctList(possibleWords);
 
@@ -36,7 +43,7 @@ namespace WordBrainSolver
             return possibleWords;
         }
 
-        private List<string> GetPossibleWords()
+        private List<string> GetPossibleWords(string[] dictionary)
         {
             List<string> possibleWords = new List<string>();
             int i = 0;
@@ -66,13 +73,13 @@ namespace WordBrainSolver
             return possibleWords;
         }
 
-        private void GenerateFoundWords(int lives, int gridSize, char[,] board)
+        private void GenerateFoundWords(int lives, int gridSize, char[,] board, Dictionary<string, List<string>> subDictionary)
         {
             for (int i = 0; i < gridSize; i++)
             {
                 for (int j = 0; j < gridSize; j++)
                 {
-                    FindWords(wordsFound, visitedPoints, lives, i, j, String.Empty, gridSize, board);
+                    FindWords(wordsFound, visitedPoints, lives, i, j, string.Empty, gridSize, board, subDictionary);
                     visitedPoints.Clear();
                 }
             }
@@ -89,29 +96,15 @@ namespace WordBrainSolver
             return distictWords;
         }
 
-        private void GetDictionary()
+        private string[] GetDictionary()
         {
-//            string dictionaryContent;
-//            string dictionaryPath = Path.Combine(Directory.GetCurrentDirectory(), $@"{ResourcesFolderName}\{DictionaryFileName}");
-//
-//            if (!File.Exists(dictionaryPath))
-//            {
-//                throw new FileNotFoundException($"'{DictionaryFileName}' file was not found.");
-//            }
-//
-//            using (StreamReader streamReader = new StreamReader(dictionaryPath))
-//            {
-//                dictionaryContent = streamReader.ReadToEnd();
-//            }
+            string dictionaryContent = _dictionaryRetriever.GetDictionary();
 
-            string dictionaryContent = new DictionaryRetriever().GetDictionary();
-
-            dictionary = dictionaryContent.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+            return dictionaryContent.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
         }
 
-        private void FindWords(List<string> wordsFound, List<Point> visitedPoints, int lives, int x, int y, string currentWord, int gridSize, char[,] board)
+        private void FindWords(List<string> wordsFound, List<Point> visitedPoints, int lives, int x, int y, string currentWord, int gridSize, char[,] board, Dictionary<string, List<string>> subDictionary)
         {
-
             //Case 1- Goes off grid
             if (x >= gridSize || x < 0 || y >= gridSize || y < 0)
             {
@@ -125,6 +118,14 @@ namespace WordBrainSolver
             visitedPoints.Add(new Point { X = x, Y = y });
             currentWord = currentWord + board[x, y];
 
+            if (currentWord.Length == BrootForceSearchLimit)
+            {
+                if (!subDictionary.ContainsKey(currentWord))
+                {
+                    return;
+                }
+            }
+
             //Case 3 - Ran out of lives
             if (lives == 1)
             {
@@ -135,21 +136,21 @@ namespace WordBrainSolver
 
             // todo get rid of gross cloning
             List<Point> clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x - 1, y - 1, currentWord, gridSize, board);
+            FindWords(wordsFound, clonedPoints, lives, x - 1, y - 1, currentWord, gridSize, board, subDictionary);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x, y - 1, currentWord, gridSize, board);
+            FindWords(wordsFound, clonedPoints, lives, x, y - 1, currentWord, gridSize, board, subDictionary);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x + 1, y - 1, currentWord, gridSize, board);
+            FindWords(wordsFound, clonedPoints, lives, x + 1, y - 1, currentWord, gridSize, board, subDictionary);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x - 1, y, currentWord, gridSize, board);
+            FindWords(wordsFound, clonedPoints, lives, x - 1, y, currentWord, gridSize, board, subDictionary);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x + 1, y, currentWord, gridSize, board);
+            FindWords(wordsFound, clonedPoints, lives, x + 1, y, currentWord, gridSize, board, subDictionary);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x - 1, y + 1, currentWord, gridSize, board);
+            FindWords(wordsFound, clonedPoints, lives, x - 1, y + 1, currentWord, gridSize, board, subDictionary);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x, y + 1, currentWord, gridSize, board);
+            FindWords(wordsFound, clonedPoints, lives, x, y + 1, currentWord, gridSize, board, subDictionary);
             clonedPoints = new List<Point>(visitedPoints);
-            FindWords(wordsFound, clonedPoints, lives, x + 1, y + 1, currentWord, gridSize, board);
+            FindWords(wordsFound, clonedPoints, lives, x + 1, y + 1, currentWord, gridSize, board, subDictionary);
 
             currentWord.Remove(currentWord.Length - 1);
         }
