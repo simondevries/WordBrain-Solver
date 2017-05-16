@@ -13,19 +13,21 @@ namespace WordBrainSolver
         public string GetDictionary()
         {
             string dictionaryPath = Path.Combine(Directory.GetCurrentDirectory(), $@"{ResourcesFolderName}\{DictionaryFileName}");
+            
+            // todo (sdv) Azure doesn't allow access to drive so commented out for now
 
-            if (!File.Exists(dictionaryPath))
-            {
-                DownloadDictionary(dictionaryPath);
-            }
+          //  if (!File.Exists(dictionaryPath))
+          //  {
+               return DownloadDictionary(dictionaryPath);
+          //  }
 
-            using (StreamReader streamReader = new StreamReader(dictionaryPath))
-            {
-                return streamReader.ReadToEnd();
-            }
+          //  using (StreamReader streamReader = new StreamReader(dictionaryPath))
+          //  {
+          //      return streamReader.ReadToEnd();
+          //  }
         }
 
-        private void DownloadDictionary(string dictionaryPath)
+        private string DownloadDictionary(string dictionaryPath)
         {
             // Retrieve storage account from connection string.
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
@@ -46,11 +48,11 @@ namespace WordBrainSolver
                 blockBlob2.DownloadToStream(memoryStream);
                 text = System.Text.Encoding.UTF8.GetString(memoryStream.ToArray());
             }
-
-            using (StreamWriter streamReader = new StreamWriter(dictionaryPath))
-            {
-                streamReader.Write(text);
-            }
+            return text;
+//            using (StreamWriter streamReader = new StreamWriter(dictionaryPath))
+//            {
+//                streamReader.Write(text);
+//            }
         }
     }
 }
