@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WordBrainSolver.Core;
 
 namespace WordBrainSolver.Tests
 {
@@ -20,7 +20,7 @@ namespace WordBrainSolver.Tests
         [TestMethod]
         public void PerformanceTestOne()
         {
-            List<TestCase> testCases = new List<TestCase>()
+            List<TestCase> testCases = new List<TestCase>
             {
                 new TestCase {Board = "btleexffoiretahs", Lives = 5, GridSize = 4},
                 new TestCase {Board = "btleexffoiretahs", Lives = 4, GridSize = 4},
@@ -40,12 +40,12 @@ namespace WordBrainSolver.Tests
 
         private void RunTest(TestCase testCase)
         {
-            Game game = new Game();
+            GameCoordinator gameCoordinator = new GameCoordinator();
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            List<string> results = game.RunGame(testCase.Lives, testCase.GridSize, testCase.Board);
+            List<string> results = gameCoordinator.GenerateGameSolutions(testCase.Lives, testCase.GridSize, testCase.Board);
 
             stopwatch.Stop();
 

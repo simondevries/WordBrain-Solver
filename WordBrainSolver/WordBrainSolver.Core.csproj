@@ -5,10 +5,10 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{800072CB-30A5-401D-A409-32640C5C7B52}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WordBrainSolver</RootNamespace>
-    <AssemblyName>WordBrainSolver</AssemblyName>
+    <RootNamespace>WordBrainSolver.Core</RootNamespace>
+    <AssemblyName>WordBrainSolver.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -49,6 +49,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'web.config|AnyCPU'">
     <OutputPath>bin\web.config\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -106,12 +109,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game.cs" />
-    <Compile Include="DictionaryRetriever.cs" />
+    <Compile Include="DictionaryCoordinator.cs" />
+    <Compile Include="FileDictionaryRetriever.cs" />
+    <Compile Include="GameCoordinator.cs" />
+    <Compile Include="BlobStorageDictionaryRetriever.cs" />
+    <Compile Include="GameInputValidator.cs" />
+    <Compile Include="Interfaces\IDictionaryCoordinator.cs" />
+    <Compile Include="Interfaces\IDictionaryRetriever.cs" />
+    <Compile Include="Interfaces\IGameCoordinator.cs" />
+    <Compile Include="Interfaces\IGameInputValidator.cs" />
+    <Compile Include="Interfaces\ISubDictionaryGenerator.cs" />
+    <Compile Include="Interfaces\IWordSearchCoordinator.cs" />
+    <Compile Include="Interfaces\IWordSearcher.cs" />
+    <Compile Include="Interfaces\WordSearcher.cs" />
     <Compile Include="Point.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubDictionaryGenerator.cs" />
+    <Compile Include="WordSearchCoordinator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

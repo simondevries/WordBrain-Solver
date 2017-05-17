@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using WordBrainSolver.Core.Interfaces;
 
-namespace WordBrainSolver
+namespace WordBrainSolver.Core
 {
-    public class SubDictionaryGenerator
+    public class SubDictionaryGenerator : ISubDictionaryGenerator
     {
-        public Dictionary<string, List<string>> GenerateSubDictionary(int wordLengthBeingSearchedFor, string[] dictionary, int keyLength)
+        public Dictionary<string, List<string>> GenerateSubDictionary(int keyLength, int wordLengthBeingSearchedFor, string[] dictionary)
         {
             Dictionary<string, List<string>> subDictionary = new Dictionary<string, List<string>>();
 
@@ -19,7 +20,7 @@ namespace WordBrainSolver
                     }
                     else
                     {
-                        subDictionary.Add(keyLetters, new List<string>() { word });
+                        subDictionary.Add(keyLetters, new List<string> { word });
                     }
 
                 }

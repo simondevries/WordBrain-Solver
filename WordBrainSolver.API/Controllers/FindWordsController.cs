@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 using System.Web.Mvc;
+using WordBrainSolver.Core;
 
 namespace WordBrainSolver.API.Controllers
 {
@@ -17,8 +18,8 @@ namespace WordBrainSolver.API.Controllers
         public string Get(int gridSize, int wordLength, string board)
         {
 
-            Game game = new Game();
-            List<string> list = game.RunGame(wordLength, gridSize, board);
+            GameCoordinator gameCoordinator = new GameCoordinator();
+            List<string> list = gameCoordinator.GenerateGameSolutions(wordLength, gridSize, board);
 
             string aggregate = list.Aggregate("", (c, s) => s + ", " + c);
             return aggregate;
