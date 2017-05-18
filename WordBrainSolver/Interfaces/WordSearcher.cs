@@ -17,10 +17,10 @@ namespace WordBrainSolver.Core.Interfaces
             _foundWords = new List<string>();
         }
 
-        public List<string> FindWords(List<Point> visitedPoints, int lives, int x, int y, string currentWord, char[,] board)
+        public List<string> FindWords(List<Point> visitedPoints, int wordLengthBeingSearchedFor, int x, int y, string currentWord, char[,] board)
         {
-            _subDictionary = _dictionaryCoordinator.GenerateSubDictionary(lives, BrutForceSearchLimit);
-            RecursiveFind(visitedPoints, lives, x, y, currentWord, board);
+            _subDictionary = _dictionaryCoordinator.GenerateSubDictionary(BrutForceSearchLimit, wordLengthBeingSearchedFor);
+            RecursiveFind(visitedPoints, wordLengthBeingSearchedFor, x, y, currentWord, board);
             return _foundWords;
         }
 

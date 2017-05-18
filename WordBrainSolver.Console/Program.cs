@@ -1,5 +1,6 @@
 ﻿using System;
-using WordBrainSolver.Core;
+using Ninject;
+using WordBrainSolver.Core.Interfaces;
 
 namespace WordBrainSolver.Console
 {
@@ -7,10 +8,11 @@ namespace WordBrainSolver.Console
     {
         static void Main(string[] args)
         {
+            IKernel kernel = new StandardKernel(new NinjectModule());
+            IGameCoordinator gameCoordinator = kernel.Get<IGameCoordinator>();
+
             while (true)
             {
-                GameCoordinator gameCoordinator = new GameCoordinator();
-
                 System.Console.WriteLine("Enter Grid Size, for example '3' or '4'");
                 int gridSize = Convert.ToInt32(System.Console.ReadLine());
 
@@ -20,7 +22,11 @@ namespace WordBrainSolver.Console
                 System.Console.WriteLine("Enter Word Length");
                 int lives = Convert.ToInt32(System.Console.ReadLine());
 
-                gameCoordinator.GenerateGameSolutions(lives, gridSize, board);
+                var generatedGameSolutions = gameCoordinator.GenerateGameSolutions(lives, gridSize, board);
+                foreach (var solution in generatedGameSolutions)
+                {
+                    System.Console.WriteLine(solution);
+                }
 
                 System.Console.WriteLine("Done");
                 System.Console.WriteLine("=============");

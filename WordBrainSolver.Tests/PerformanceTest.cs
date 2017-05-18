@@ -29,7 +29,7 @@ namespace WordBrainSolver.Tests
                 new TestCase {Board = "cphtealscueoshog", Lives = 8, GridSize = 4},
                 new TestCase {Board = "ullkkssoc", Lives = 5, GridSize = 3},
                 new TestCase {Board = "ullkkssoc", Lives = 3, GridSize = 3},
-                new TestCase {Board = "ullkkssoc", Lives = 4, GridSize = 3},
+                new TestCase {Board = "ullkkssoc", Lives = 4, GridSize = 3}
             };
 
             foreach (TestCase testCase in testCases)
@@ -40,7 +40,7 @@ namespace WordBrainSolver.Tests
 
         private void RunTest(TestCase testCase)
         {
-            GameCoordinator gameCoordinator = new GameCoordinator();
+            GameCoordinator gameCoordinator = new GameCoordinatorBuilder().Build();
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();

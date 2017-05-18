@@ -41,12 +41,16 @@ namespace WordBrainSolver.Core
         /// </summary>
         public Dictionary<string, List<string>> GenerateSubDictionary(int brutForceSearchLimit, int wordLengthBeingSearchedFor)
         {
+            if (_retrieveDictionaryContent == null)
+            {
+                RetrieveDictionaryContent();
+            }
+
             // TODO Make sure this is thread-safe.
             var key = $"{brutForceSearchLimit},{wordLengthBeingSearchedFor}";
             if (!_allSubDictionary.Keys.Contains(key))
             {
-                _allSubDictionary[key] = _subDictionaryGenerator.GenerateSubDictionary(brutForceSearchLimit,
-                    wordLengthBeingSearchedFor, _retrieveDictionaryContent);
+                _allSubDictionary[key] = _subDictionaryGenerator.GenerateSubDictionary(brutForceSearchLimit, wordLengthBeingSearchedFor, _retrieveDictionaryContent);
             }
             return _allSubDictionary[key];
         }
