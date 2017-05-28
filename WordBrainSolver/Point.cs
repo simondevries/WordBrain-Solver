@@ -1,6 +1,6 @@
-﻿namespace WordBrainSolver
+﻿namespace WordBrainSolver.Core
 {
-    class Point
+    public class Point
     {
         public int X { get; set; }
         public int Y { get; set; }
