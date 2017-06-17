@@ -81,33 +81,33 @@ namespace WordBrainSolver.Core.Algorithm
         private bool TryUseIntelligentAlgorithm(List<Point> visitedPoints, int x, int y, string currentWord, char[,] board,
             List<string> foundWords, Dictionary<string, List<string>> subDictionary)
         {
-            if (currentWord.Length == _bruteForceSearchLimit)
+            if (currentWord.Length != _bruteForceSearchLimit)
             {
-                if (subDictionary.ContainsKey(currentWord))
-                {
-                    foreach (string possibleWord in subDictionary[currentWord])
-                    {
-                        if (possibleWord == currentWord)
-                        {
-                            foundWords.Add(possibleWord);
-                            break;
-                        }
-
-                        string possibleWordTrimmed = possibleWord.Substring(_bruteForceSearchLimit,
-                            possibleWord.Length - _bruteForceSearchLimit);
-
-                        bool found = _intelligentSecondaryWordSearcher.Search(possibleWordTrimmed, visitedPoints, board, x, y);
-
-                        if (found)
-                        {
-                            foundWords.Add(possibleWord);
-                        }
-                    }
-                }
-
+                return false;
+            }
+            if (!subDictionary.ContainsKey(currentWord))
+            {
                 return true;
             }
-            return false;
+            foreach (string possibleWord in subDictionary[currentWord])
+            {
+                if (possibleWord == currentWord)
+                {
+                    foundWords.Add(possibleWord);
+                    break;
+                }
+
+                string possibleWordTrimmed = possibleWord.Substring(_bruteForceSearchLimit,
+                    possibleWord.Length - _bruteForceSearchLimit);
+
+                bool found = _intelligentSecondaryWordSearcher.Search(possibleWordTrimmed, visitedPoints, board, x, y);
+
+                if (found)
+                {
+                    foundWords.Add(possibleWord);
+                }
+            }
+            return true;
         }
     }
 }

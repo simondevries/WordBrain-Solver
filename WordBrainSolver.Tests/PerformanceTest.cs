@@ -63,6 +63,7 @@ namespace WordBrainSolver.Tests
         [Test]
         public void RunTest()
         {
+            //1
             TestCase testCase = new TestCase {Board = "abcdefghijklmnop", Lives = 3, GridSize = 4};
 
             SolutionGeneratorCoordinator solverSolutionGeneratorCoordinatorCoordinator = new SolutionGeneratorCoordinatorBuilder().Build();
@@ -71,6 +72,15 @@ namespace WordBrainSolver.Tests
 
             results.Should().NotBeNull();
             results.Count.Should().Be(8);
+
+            //2
+
+             testCase = new TestCase { Board = "nshdakuiaoisskeu", Lives = 3, GridSize = 4 };
+            
+            results = solverSolutionGeneratorCoordinatorCoordinator.GenerateGameSolutions(testCase.Lives, testCase.GridSize, testCase.Board);
+
+            results.Should().NotBeNull();
+            results.Count.Should().Be(20);
         }
     }
 }
