@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordBrainSolver.Core", "WordBrainSolver\WordBrainSolver.Core.csproj", "{800072CB-30A5-401D-A409-32640C5C7B52}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordBrainSolver.Tests", "WordBrainSolver.Tests\WordBrainSolver.Tests.csproj", "{D2BDBAB4-AA05-4688-9A51-61A4651BA602}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordBrainSolver.API", "WordBrainSolver.API\WordBrainSolver.API.csproj", "{A2ECBC66-FD4A-4D12-84D2-02B36AACB041}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordBrainSolver.Console", "WordBrainSolver.Console\WordBrainSolver.Console.csproj", "{A6B181EB-81D8-4B5C-B73B-0B4DF4CE0509}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,12 +34,6 @@ Global
 		{A2ECBC66-FD4A-4D12-84D2-02B36AACB041}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A2ECBC66-FD4A-4D12-84D2-02B36AACB041}.web.config|Any CPU.ActiveCfg = Release|Any CPU
 		{A2ECBC66-FD4A-4D12-84D2-02B36AACB041}.web.config|Any CPU.Build.0 = Release|Any CPU
-		{A6B181EB-81D8-4B5C-B73B-0B4DF4CE0509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6B181EB-81D8-4B5C-B73B-0B4DF4CE0509}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6B181EB-81D8-4B5C-B73B-0B4DF4CE0509}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6B181EB-81D8-4B5C-B73B-0B4DF4CE0509}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6B181EB-81D8-4B5C-B73B-0B4DF4CE0509}.web.config|Any CPU.ActiveCfg = Release|Any CPU
-		{A6B181EB-81D8-4B5C-B73B-0B4DF4CE0509}.web.config|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

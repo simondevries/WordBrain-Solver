@@ -1,7 +1,8 @@
-﻿using System.Configuration;
-using System.IO;
-using System.Web;
+﻿using System;
+using System.Configuration;
 using WordBrainSolver.Core;
+using WordBrainSolver.Core.Algorithm;
+using WordBrainSolver.Core.Dictionary;
 using WordBrainSolver.Core.Interfaces;
 
 namespace WordBrainSolver.API
@@ -10,15 +11,15 @@ namespace WordBrainSolver.API
     {
         public override void Load()
         {
-            Bind<IGameCoordinator>().To<GameCoordinator>();
-            Bind<IWordSearchCoordinator>().To<WordSearchCoordinator>();
-            Bind<IWordSearcher>().To<WordSearcher>();
-            Bind<ISubDictionaryGenerator>().To<SubDictionaryGenerator>();
-           
-            string relativeDictionaryPath = ConfigurationManager.AppSettings["RelativeDictionaryPath"];
-            string fullDictionaryPath = Path.Combine(HttpRuntime.AppDomainAppPath, relativeDictionaryPath);
-            Bind<IDictionaryRetriever>().To<FileDictionaryRetriever>().WithConstructorArgument(typeof(string), fullDictionaryPath);
-            Bind<IDictionaryCoordinator>().To<DictionaryCoordinator>();
+            int bruteForceSearchLimit = Convert.ToInt32(ConfigurationManager.AppSettings["bruteForceSearchLimit"]);
+            string storageConnectionString = ConfigurationManager.AppSettings["storageConnectionString"];
+            Bind<ISolutionGeneratorCoordinator>().To<SolutionGeneratorCoordinator>();
+            Bind<IWordFinderForLocation>().To<WordFinderForLocation>();
+            Bind<ISubDictionaryGenerator>().To<SubDictionaryGenerator>().WithConstructorArgument("bruteForceSearchLimit", bruteForceSearchLimit);
+            Bind<IDictionaryRepository>().To<DictionaryRepository>().WithConstructorArgument(typeof(string), storageConnectionString);
+            Bind<IGameInputValidator>().To<GameInputValidator>();
+            Bind<IBasicPrimaryWordSearcher>().To<BasicPrimaryWordSearcher>().WithConstructorArgument("bruteForceSearchLimit", bruteForceSearchLimit);
+            Bind<IIntelligentSecondaryWordSearcher>().To<IntelligentSecondaryWordSearcher>().WithConstructorArgument("bruteForceSearchLimit", bruteForceSearchLimit);
         }
     }
 }

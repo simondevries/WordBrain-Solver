@@ -1,7 +1,9 @@
 ﻿using System.Configuration;
 using System.IO;
 using WordBrainSolver.Core;
+using WordBrainSolver.Core.Dictionary;
 using WordBrainSolver.Core.Interfaces;
+using WordBrainSolver.Core.SolutionGenerator;
 
 namespace WordBrainSolver.Console
 {
@@ -9,9 +11,8 @@ namespace WordBrainSolver.Console
     {
         public override void Load()
         {
-            Bind<IGameCoordinator>().To<GameCoordinator>();
-            Bind<IWordSearchCoordinator>().To<WordSearchCoordinator>();
-            Bind<IWordSearcher>().To<WordSearcher>();
+            Bind<ISolutionGeneratorCoordinator>().To<SolutionGeneratorCoordinator>();
+            Bind<IWordFinderForLocation>().To<WordFinderForLocation>();
             Bind<ISubDictionaryGenerator>().To<SubDictionaryGenerator>();
 
             string relativeDictionaryPath = ConfigurationManager.AppSettings["RelativeDictionaryPath"];

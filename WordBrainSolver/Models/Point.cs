@@ -1,4 +1,4 @@
-﻿namespace WordBrainSolver.Core
+﻿namespace WordBrainSolver.Core.Models
 {
     public class Point
     {

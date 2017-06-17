@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using WordBrainSolver.Core.Interfaces;
@@ -9,17 +8,18 @@ namespace WordBrainSolver.API.Controllers
     [AllowCrossSiteJson]
     public class FindWordsController : ApiController
     {
-        private readonly IGameCoordinator _gameCoordinator;
+        private readonly ISolutionGeneratorCoordinator _solutionGeneratorCoordinator;
 
-        public FindWordsController(IGameCoordinator gameCoordinator)
+        public FindWordsController(ISolutionGeneratorCoordinator solutionGeneratorCoordinator)
         {
-            _gameCoordinator = gameCoordinator ?? throw new ArgumentNullException(nameof(gameCoordinator));
+            _solutionGeneratorCoordinator = solutionGeneratorCoordinator;
+                // ?? throw new ArgumentNullException(nameof(solutionGeneratorCoordinator));
         }
 
         // GET api/<controller>/5
         public string Get(int gridSize, int wordLength, string board)
         {
-            List<string> list = _gameCoordinator.GenerateGameSolutions(wordLength, gridSize, board);
+            List<string> list = _solutionGeneratorCoordinator.GenerateGameSolutions(wordLength, gridSize, board);
 
             string aggregate = list.Aggregate("", (c, s) => s + ", " + c);
             return aggregate;

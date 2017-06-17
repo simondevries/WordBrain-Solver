@@ -9,7 +9,7 @@ namespace WordBrainSolver.Console
         static void Main(string[] args)
         {
             IKernel kernel = new StandardKernel(new NinjectModule());
-            IGameCoordinator gameCoordinator = kernel.Get<IGameCoordinator>();
+            ISolutionGeneratorCoordinator solutionGeneratorCoordinator = kernel.Get<ISolutionGeneratorCoordinator>();
 
             while (true)
             {
@@ -22,7 +22,7 @@ namespace WordBrainSolver.Console
                 System.Console.WriteLine("Enter Word Length");
                 int lives = Convert.ToInt32(System.Console.ReadLine());
 
-                var generatedGameSolutions = gameCoordinator.GenerateGameSolutions(lives, gridSize, board);
+                var generatedGameSolutions = solutionGeneratorCoordinator.GenerateGameSolutions(lives, gridSize, board);
                 foreach (var solution in generatedGameSolutions)
                 {
                     System.Console.WriteLine(solution);

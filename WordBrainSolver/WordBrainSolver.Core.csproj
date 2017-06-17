@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WordBrainSolver.Core</RootNamespace>
     <AssemblyName>WordBrainSolver.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <PublishUrl>publish\</PublishUrl>
@@ -27,6 +27,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,6 +38,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -109,23 +111,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DictionaryCoordinator.cs" />
-    <Compile Include="FileDictionaryRetriever.cs" />
-    <Compile Include="GameCoordinator.cs" />
-    <Compile Include="BlobStorageDictionaryRetriever.cs" />
-    <Compile Include="GameInputValidator.cs" />
-    <Compile Include="Interfaces\IDictionaryCoordinator.cs" />
-    <Compile Include="Interfaces\IDictionaryRetriever.cs" />
-    <Compile Include="Interfaces\IGameCoordinator.cs" />
-    <Compile Include="Interfaces\IGameInputValidator.cs" />
+    <Compile Include="Algorithm\BasicPrimaryWordSearcher.cs" />
+    <Compile Include="Interfaces\IIntelligentSecondaryWordSearcher.cs" />
+    <Compile Include="Algorithm\IntelligentSecondaryWordSearcher.cs" />
+    <Compile Include="Interfaces\IBasicPrimaryWordSearcher.cs" />
+    <Compile Include="Dictionary\DictionaryRepository.cs" />
     <Compile Include="Interfaces\ISubDictionaryGenerator.cs" />
-    <Compile Include="Interfaces\IWordSearchCoordinator.cs" />
-    <Compile Include="Interfaces\IWordSearcher.cs" />
-    <Compile Include="Interfaces\WordSearcher.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="Interfaces\IDictionaryRepository.cs" />
+    <Compile Include="Models\WordDictionaries.cs" />
+    <Compile Include="Algorithm\SolutionGeneratorCoordinator.cs" />
+    <Compile Include="GameInputValidator.cs" />
+    <Compile Include="Interfaces\ISolutionGeneratorCoordinator.cs" />
+    <Compile Include="Interfaces\IGameInputValidator.cs" />
+    <Compile Include="Interfaces\IWordFinderForLocation.cs" />
+    <Compile Include="Algorithm\WordFinderForLocation.cs" />
+    <Compile Include="Models\Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubDictionaryGenerator.cs" />
-    <Compile Include="WordSearchCoordinator.cs" />
+    <Compile Include="Dictionary\SubDictionaryGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
