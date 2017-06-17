@@ -9,13 +9,11 @@ namespace WordBrainSolver.Tests.Builders
     {
         private readonly IDictionaryRepository _dictionaryRepository;
         private readonly IWordFinderForLocation _wordFinderForLocation;
-        private int _bruteForceSearchLimit;
 
         public SolutionGeneratorCoordinatorBuilder()
         {
-            _bruteForceSearchLimit = 3;
             _dictionaryRepository = new DictionaryRepository(ConnectionStrings.AzureConnectionString, new WordDictionariesCacheService());
-            _wordFinderForLocation = new WordFinderForLocation(new SubDictionaryGenerator(_bruteForceSearchLimit), new BasicPrimaryWordSearcher(new IntelligentSecondaryWordSearcher(), _bruteForceSearchLimit));
+            _wordFinderForLocation = new WordFinderForLocation(new SubDictionaryGenerator(Settings.BruteForceSearchLimit), new BasicPrimaryWordSearcherBuilder().Build());
         }
 
         public SolutionGeneratorCoordinator Build()

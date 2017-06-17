@@ -25,6 +25,7 @@ namespace WordBrainSolver.Core.Algorithm
 
         /// <summary>
         /// Searches for words  
+        /// Lives = letters remining in word
         /// </summary>
         public void Search(List<Point> visitedPoints, int lives, int x, int y, string currentWord, char[,] board, List<string> foundWords, Dictionary<string, List<string>> subDictionary)
         {
@@ -43,32 +44,7 @@ namespace WordBrainSolver.Core.Algorithm
             currentWord = currentWord + board[x, y];
 
             //Case 3 - No possible word
-            if (currentWord.Length == _bruteForceSearchLimit)
-            {
-                if (subDictionary.ContainsKey(currentWord))
-                {
-                    foreach (string possibleWord in subDictionary[currentWord])
-                    {
-
-                        if (possibleWord == currentWord)
-                        {
-                            foundWords.Add(possibleWord);
-                            break;
-                        }
-
-                        string possibleWordTrimmed = possibleWord.Substring(_bruteForceSearchLimit, possibleWord.Length - _bruteForceSearchLimit);
-
-                        bool found = _intelligentSecondaryWordSearcher.Search(possibleWordTrimmed, visitedPoints, board, x, y);
-
-                        if (found)
-                        {
-                            foundWords.Add(possibleWord);
-                        }
-                    }
-                }
-
-                return;
-            }
+            if (TryUseIntelligentAlgorithm(visitedPoints, x, y, currentWord, board, foundWords, subDictionary)) return;
 
             //Case 4 - Ran out of lives
             if (lives == 1)
@@ -97,6 +73,41 @@ namespace WordBrainSolver.Core.Algorithm
             Search(clonedPoints, lives, x + 1, y + 1, currentWord, board, foundWords, subDictionary);
 
             currentWord.Remove(currentWord.Length - 1);
+        }
+
+        /// <summary>
+        /// Checks whether the intelligent algorithm can be used
+        /// </summary>
+        private bool TryUseIntelligentAlgorithm(List<Point> visitedPoints, int x, int y, string currentWord, char[,] board,
+            List<string> foundWords, Dictionary<string, List<string>> subDictionary)
+        {
+            if (currentWord.Length == _bruteForceSearchLimit)
+            {
+                if (subDictionary.ContainsKey(currentWord))
+                {
+                    foreach (string possibleWord in subDictionary[currentWord])
+                    {
+                        if (possibleWord == currentWord)
+                        {
+                            foundWords.Add(possibleWord);
+                            break;
+                        }
+
+                        string possibleWordTrimmed = possibleWord.Substring(_bruteForceSearchLimit,
+                            possibleWord.Length - _bruteForceSearchLimit);
+
+                        bool found = _intelligentSecondaryWordSearcher.Search(possibleWordTrimmed, visitedPoints, board, x, y);
+
+                        if (found)
+                        {
+                            foundWords.Add(possibleWord);
+                        }
+                    }
+                }
+
+                return true;
+            }
+            return false;
         }
     }
 }

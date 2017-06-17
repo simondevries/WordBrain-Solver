@@ -74,12 +74,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BasicPrimaryWordSearcherTest.cs" />
+    <Compile Include="Builders\BasicPrimaryWordSearcherBuilder.cs" />
     <Compile Include="Builders\SolutionGeneratorCoordinatorBuilder.cs" />
     <Compile Include="DictionaryRepositoryTest.cs" />
     <Compile Include="Builders\DictionaryRepositoryBuilder.cs" />
     <Compile Include="GameInputValidatorTest.cs" />
     <Compile Include="PerformanceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="SettingsStub.cs" />
     <Compile Include="Stubs\WordDictionariesCacheServiceTest.cs" />
     <Compile Include="TestCase.cs" />

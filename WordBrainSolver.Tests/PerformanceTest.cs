@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using WordBrainSolver.Core;
 using WordBrainSolver.Core.Algorithm;
 using WordBrainSolver.Tests.Builders;
@@ -56,6 +58,19 @@ namespace WordBrainSolver.Tests
             _testResultsSaver.SaveResults(stopwatch.ElapsedMilliseconds.ToString(), testCase, results);
 
             Console.WriteLine(stopwatch.ElapsedMilliseconds);
+        }
+
+        [Test]
+        public void RunTest()
+        {
+            TestCase testCase = new TestCase {Board = "abcdefghijklmnop", Lives = 3, GridSize = 4};
+
+            SolutionGeneratorCoordinator solverSolutionGeneratorCoordinatorCoordinator = new SolutionGeneratorCoordinatorBuilder().Build();
+
+            List<string> results = solverSolutionGeneratorCoordinatorCoordinator.GenerateGameSolutions(testCase.Lives, testCase.GridSize, testCase.Board);
+
+            results.Should().NotBeNull();
+            results.Count.Should().Be(8);
         }
     }
 }
