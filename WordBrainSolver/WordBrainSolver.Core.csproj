@@ -87,6 +87,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
@@ -112,12 +113,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\BasicPrimaryWordSearcher.cs" />
+    <Compile Include="CacheService.cs" />
     <Compile Include="Interfaces\IIntelligentSecondaryWordSearcher.cs" />
     <Compile Include="Algorithm\IntelligentSecondaryWordSearcher.cs" />
     <Compile Include="Interfaces\IBasicPrimaryWordSearcher.cs" />
     <Compile Include="Dictionary\DictionaryRepository.cs" />
     <Compile Include="Interfaces\ISubDictionaryGenerator.cs" />
     <Compile Include="Interfaces\IDictionaryRepository.cs" />
+    <Compile Include="Interfaces\IWordDictionariesCacheService.cs" />
     <Compile Include="Models\WordDictionaries.cs" />
     <Compile Include="Algorithm\SolutionGeneratorCoordinator.cs" />
     <Compile Include="GameInputValidator.cs" />

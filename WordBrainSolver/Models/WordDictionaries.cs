@@ -9,7 +9,7 @@ namespace WordBrainSolver.Core.Models
     public class WordDictionaries
     {
         private readonly string[] _fullDictionary;
-        public readonly Dictionary<string, Dictionary<string, List<string>>> _subDictionaries;
+        private readonly Dictionary<string, Dictionary<string, List<string>>> _subDictionaries;
 
         /// <summary>
         /// Constructor

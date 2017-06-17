@@ -13,13 +13,15 @@ namespace WordBrainSolver.Core.Dictionary
     public class DictionaryRepository : IDictionaryRepository
     {
         private readonly string _storageConnectionString;
+        private readonly IWordDictionariesCacheService _wordDictionariesCacheService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DictionaryRepository"/> class.
         /// </summary>
-        public DictionaryRepository(string storageConnectionString)
+        public DictionaryRepository(string storageConnectionString, IWordDictionariesCacheService wordDictionariesCacheService)
         {
             _storageConnectionString = storageConnectionString;
+            _wordDictionariesCacheService = wordDictionariesCacheService;
         }
 
         /// <summary>
@@ -29,6 +31,11 @@ namespace WordBrainSolver.Core.Dictionary
         {
             // TODO Implement caching.
             // TODO Make sure this is thread-safe.  CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_storageConnectionString);
+
+            if (_wordDictionariesCacheService.HasBeenPrimed())
+            {
+                return _wordDictionariesCacheService.RetrieveFromCache();
+            }
 
             // Create the blob client.  
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_storageConnectionString);
@@ -49,7 +56,12 @@ namespace WordBrainSolver.Core.Dictionary
             }
 
             string[] contentSplit = content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            return new WordDictionaries(contentSplit);
+            WordDictionaries fullDictionary = new WordDictionaries(contentSplit);
+
+            _wordDictionariesCacheService.SaveInCache(fullDictionary);
+
+            return fullDictionary;
         }
+
     }
 }
