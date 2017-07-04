@@ -27,15 +27,15 @@ namespace WordBrainSolver.Core.Algorithm
         /// <summary>
         /// Finds words of a specific length on specified location on the board.
         /// </summary>
-        public List<string> FindWordsForLocation(List<Point> visitedPoints, int wordLengthBeingSearchedFor, int x, int y,
-            string currentWord, char[,] board, WordDictionaries wordDictionaries)
+        public List<string> FindWordsForLocation(int wordLengthBeingSearchedFor, int x, int y, char[,] board, WordDictionaries wordDictionaries)
         {
-            List<string> foundWords = new List<string>();
+            List<WordUnderInvestigation> foundWords = new List<WordUnderInvestigation>();
             Dictionary<string, List<string>> subDictionary =
                 _subDictionaryCoordinator.RetrieveSubDictionary(wordLengthBeingSearchedFor, wordDictionaries);
-            _basicPrimaryWordSearcher.Search(visitedPoints, wordLengthBeingSearchedFor, x, y, currentWord, board,
+            _basicPrimaryWordSearcher.Search(new List<Point>(), wordLengthBeingSearchedFor, x, y, new WordUnderInvestigation(), board,
                 foundWords, subDictionary);
-            return foundWords;
+
+            return foundWords.Select(word => word.GetWord()).ToList();
         }
     }
 }

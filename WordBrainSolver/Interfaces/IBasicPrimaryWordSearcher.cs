@@ -12,6 +12,6 @@ namespace WordBrainSolver.Core.Interfaces
         /// <summary>
         /// Searches for words
         /// </summary>
-        void Search(List<Point> visitedPoints, int lives, int x, int y, string currentWord, char[,] board, List<string> foundWords, Dictionary<string, List<string>> subDictionary);
+        void Search(List<Point> visitedPoints, int lives, int x, int y, WordUnderInvestigation wordUnderInvestigation, char[,] board, List<WordUnderInvestigation> foundWords, Dictionary<string, List<string>> subDictionary);
     }
 }

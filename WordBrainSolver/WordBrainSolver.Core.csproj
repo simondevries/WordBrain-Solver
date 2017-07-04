@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\BasicPrimaryWordSearcher.cs" />
+    <Compile Include="Clone.cs" />
     <Compile Include="CacheService.cs" />
     <Compile Include="Interfaces\IIntelligentSecondaryWordSearcher.cs" />
     <Compile Include="Algorithm\IntelligentSecondaryWordSearcher.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Interfaces\IWordFinderForLocation.cs" />
     <Compile Include="Algorithm\WordFinderForLocation.cs" />
     <Compile Include="Models\Point.cs" />
+    <Compile Include="Models\WordUnderInvestigation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dictionary\SubDictionaryGenerator.cs" />
   </ItemGroup>

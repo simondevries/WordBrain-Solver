@@ -20,6 +20,7 @@ namespace WordBrainSolver.API
             Bind<IGameInputValidator>().To<GameInputValidator>();
             Bind<IBasicPrimaryWordSearcher>().To<BasicPrimaryWordSearcher>().WithConstructorArgument("bruteForceSearchLimit", bruteForceSearchLimit);
             Bind<IIntelligentSecondaryWordSearcher>().To<IntelligentSecondaryWordSearcher>().WithConstructorArgument("bruteForceSearchLimit", bruteForceSearchLimit);
+            Bind<IWordDictionariesCacheService>().To<WordDictionariesCacheService>();
         }
     }
 }

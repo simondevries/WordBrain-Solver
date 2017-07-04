@@ -1,10 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace WordBrainSolver.Core.Models
 {
+    [Serializable]
     public class Point
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        private readonly int _y;
+        private readonly int _x;
+
+        public Point(int x, int y)
+        {
+            _x = x;
+            _y = y;
+        }
+
+        public int X()
+        {
+            return _x;
+        }
+
+        public int Y()
+        {
+            return _y;
+        }
+
+        public bool HasValue(int x, int y)
+        {
+            return x == _x && y == _y;
+        }
     }
 }

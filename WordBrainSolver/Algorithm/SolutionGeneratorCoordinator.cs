@@ -39,7 +39,7 @@ namespace WordBrainSolver.Core.Algorithm
             {
                 for (int j = 0; j < gridSize; j++)
                 {
-                    solutions.AddRange(_wordFinderForLocation.FindWordsForLocation(new List<Point>(), lives, i, j, string.Empty, board, wordDictionaries));
+                    solutions.AddRange(_wordFinderForLocation.FindWordsForLocation(lives, i, j, board, wordDictionaries));
                 }
             }
             return SortAndDistinctList(solutions);

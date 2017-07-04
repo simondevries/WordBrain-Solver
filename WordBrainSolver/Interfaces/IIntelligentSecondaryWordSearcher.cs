@@ -9,10 +9,9 @@ namespace WordBrainSolver.Core.Interfaces
     public interface IIntelligentSecondaryWordSearcher
     {
         /// <summary>
-        /// Searches for words.
-        /// Given an initial set of letters of length bruteForceSearchLimit, it is able to use a sub dictionary to check neighbouring tiles
-        /// and identify if it is possible for make a word.
+        /// Initiates the search
         /// </summary>
-        bool Search(string possibleWord, List<Point> visitedPoints, char[,] board, int x, int y);
+        void InitiateSearch(List<Point> visitedPoints, int x, int y, WordUnderInvestigation wordUnderInvestigation, char[,] board,
+            List<WordUnderInvestigation> foundWords, Dictionary<string, List<string>> subDictionary);
     }
 }

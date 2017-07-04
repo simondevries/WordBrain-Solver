@@ -6,7 +6,7 @@ namespace WordBrainSolver.Tests.Builders
     {
         public BasicPrimaryWordSearcher Build()
         {
-            return new BasicPrimaryWordSearcher(new IntelligentSecondaryWordSearcher(), Settings.BruteForceSearchLimit);
+            return new BasicPrimaryWordSearcher(new IntelligentSecondaryWordSearcher(Settings.BruteForceSearchLimit), Settings.BruteForceSearchLimit);
         }
     }
 }

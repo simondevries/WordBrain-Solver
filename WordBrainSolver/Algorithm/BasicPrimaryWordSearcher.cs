@@ -22,12 +22,11 @@ namespace WordBrainSolver.Core.Algorithm
             _intelligentSecondaryWordSearcher = intelligentSecondaryWordSearcher;
             _bruteForceSearchLimit = bruteForceSearchLimit;
         }
-
         /// <summary>
         /// Searches for words  
         /// Lives = letters remining in word
         /// </summary>
-        public void Search(List<Point> visitedPoints, int lives, int x, int y, string currentWord, char[,] board, List<string> foundWords, Dictionary<string, List<string>> subDictionary)
+        public void Search(List<Point> visitedPoints, int lives, int x, int y, WordUnderInvestigation wordUnderInvestigation, char[,] board, List<WordUnderInvestigation> foundWords, Dictionary<string, List<string>> subDictionary)
         {
             //Case 1- Goes off grid
             int boardLength = board.GetLength(0);
@@ -37,77 +36,64 @@ namespace WordBrainSolver.Core.Algorithm
             }
 
             //Case 2 - Has been visited
-            bool hasBeenVisited = visitedPoints.Any(point => point.X == x && point.Y == y);
+            bool hasBeenVisited = visitedPoints.Any(point => point.HasValue(x, y));
             if (hasBeenVisited) return;
 
-            visitedPoints.Add(new Point { X = x, Y = y });
-            currentWord = currentWord + board[x, y];
+            wordUnderInvestigation.AddCharacter(board[x, y], new Point(x, y));
 
             //Case 3 - No possible word
-            if (TryUseIntelligentAlgorithm(visitedPoints, x, y, currentWord, board, foundWords, subDictionary)) return;
+            if (wordUnderInvestigation.HasLength(_bruteForceSearchLimit))
+            {
+                // If it is not in the sub dictionary then there is no need to continue
+                _intelligentSecondaryWordSearcher.InitiateSearch(visitedPoints, x, y, wordUnderInvestigation, board,
+                    foundWords, subDictionary);
+                return;
+            }
+
+            visitedPoints.Add(new Point(x, y));
 
             //Case 4 - Ran out of lives
             if (lives == 1)
             {
-                foundWords.Add(currentWord);
+                foundWords.Add(wordUnderInvestigation);
             }
 
             lives--;
 
             // todo get rid of gross cloning
-            List<Point> clonedPoints = new List<Point>(visitedPoints);
-            Search(clonedPoints, lives, x - 1, y - 1, currentWord, board, foundWords, subDictionary);
-            clonedPoints = new List<Point>(visitedPoints);
-            Search(clonedPoints, lives, x, y - 1, currentWord, board, foundWords, subDictionary);
-            clonedPoints = new List<Point>(visitedPoints);
-            Search(clonedPoints, lives, x + 1, y - 1, currentWord, board, foundWords, subDictionary);
-            clonedPoints = new List<Point>(visitedPoints);
-            Search(clonedPoints, lives, x - 1, y, currentWord, board, foundWords, subDictionary);
-            clonedPoints = new List<Point>(visitedPoints);
-            Search(clonedPoints, lives, x + 1, y, currentWord, board, foundWords, subDictionary);
-            clonedPoints = new List<Point>(visitedPoints);
-            Search(clonedPoints, lives, x - 1, y + 1, currentWord, board, foundWords, subDictionary);
-            clonedPoints = new List<Point>(visitedPoints);
-            Search(clonedPoints, lives, x, y + 1, currentWord, board, foundWords, subDictionary);
-            clonedPoints = new List<Point>(visitedPoints);
-            Search(clonedPoints, lives, x + 1, y + 1, currentWord, board, foundWords, subDictionary);
+            List<Point> clonedVisitedPoints = new List<Point>(visitedPoints);
+            WordUnderInvestigation clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
+            Search(clonedVisitedPoints, lives, x - 1, y - 1, clonedWordUnderInvestigation, board, foundWords, subDictionary);
 
-            currentWord.Remove(currentWord.Length - 1);
-        }
+            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
+            clonedVisitedPoints = new List<Point>(visitedPoints);
+            Search(clonedVisitedPoints, lives, x, y - 1, clonedWordUnderInvestigation, board, foundWords, subDictionary);
 
-        /// <summary>
-        /// Checks whether the intelligent algorithm can be used
-        /// </summary>
-        private bool TryUseIntelligentAlgorithm(List<Point> visitedPoints, int x, int y, string currentWord, char[,] board,
-            List<string> foundWords, Dictionary<string, List<string>> subDictionary)
-        {
-            if (currentWord.Length != _bruteForceSearchLimit)
-            {
-                return false;
-            }
-            if (!subDictionary.ContainsKey(currentWord))
-            {
-                return true;
-            }
-            foreach (string possibleWord in subDictionary[currentWord])
-            {
-                if (possibleWord == currentWord)
-                {
-                    foundWords.Add(possibleWord);
-                    break;
-                }
+            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
+            clonedVisitedPoints = new List<Point>(visitedPoints);
+            Search(clonedVisitedPoints, lives, x + 1, y - 1, clonedWordUnderInvestigation, board, foundWords, subDictionary);
 
-                string possibleWordTrimmed = possibleWord.Substring(_bruteForceSearchLimit,
-                    possibleWord.Length - _bruteForceSearchLimit);
+            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
+            clonedVisitedPoints = new List<Point>(visitedPoints);
+            Search(clonedVisitedPoints, lives, x - 1, y, clonedWordUnderInvestigation, board, foundWords, subDictionary);
 
-                bool found = _intelligentSecondaryWordSearcher.Search(possibleWordTrimmed, visitedPoints, board, x, y);
+            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
+            clonedVisitedPoints = new List<Point>(visitedPoints);
+            Search(clonedVisitedPoints, lives, x + 1, y, clonedWordUnderInvestigation, board, foundWords, subDictionary);
 
-                if (found)
-                {
-                    foundWords.Add(possibleWord);
-                }
-            }
-            return true;
+            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
+            clonedVisitedPoints = new List<Point>(visitedPoints);
+            Search(clonedVisitedPoints, lives, x - 1, y + 1, clonedWordUnderInvestigation, board, foundWords, subDictionary);
+
+            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
+            clonedVisitedPoints = new List<Point>(visitedPoints);
+            Search(clonedVisitedPoints, lives, x, y + 1, clonedWordUnderInvestigation, board, foundWords, subDictionary);
+
+            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
+            clonedVisitedPoints = new List<Point>(visitedPoints);
+            Search(clonedVisitedPoints, lives, x + 1, y + 1, clonedWordUnderInvestigation, board, foundWords, subDictionary);
+
+            wordUnderInvestigation.RemoveLastCharacter();
         }
     }
 }
