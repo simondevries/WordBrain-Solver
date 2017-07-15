@@ -7,20 +7,20 @@ namespace WordBrainSolver.Core.Models
     public class WordUnderInvestigation
     {
         private string _word;
-        private readonly List<Point> _visitedLocations;
+        private readonly List<Point> _positionOfLettersInWord;
         private int _currentSearchIndex;
 
         public WordUnderInvestigation()
         {
             _word = string.Empty;
-            _visitedLocations = new List<Point>();
+            _positionOfLettersInWord = new List<Point>();
             _currentSearchIndex = 0;
         }
 
-        public WordUnderInvestigation(string word, List<Point> visitedLocations, int currentSearchIndex)
+        public WordUnderInvestigation(string word, List<Point> positionOfLettersInWord, int currentSearchIndex)
         {
             _word = word;
-            _visitedLocations = visitedLocations;
+            _positionOfLettersInWord = positionOfLettersInWord;
             _currentSearchIndex = currentSearchIndex;
         }
 
@@ -34,7 +34,7 @@ namespace WordBrainSolver.Core.Models
 
         public bool IsCurrentSearchIndexAtEndOfWord()
         {
-            return _currentSearchIndex >= _word.Length;
+            return _currentSearchIndex >= _word.Length - 1;
         }
 
         public void IncrementCurrentSearchIndex()
@@ -54,7 +54,7 @@ namespace WordBrainSolver.Core.Models
 
         public List<Point> GetVisitedLocations()
         {
-            return _visitedLocations;
+            return _positionOfLettersInWord;
         }
 
         /// <summary>
@@ -66,13 +66,13 @@ namespace WordBrainSolver.Core.Models
             {
                 throw new Exception("The passed in character did not matched the character for that index");
             }
-            if (_visitedLocations.Count == _currentSearchIndex - 1)
+            if (_positionOfLettersInWord.Count == _currentSearchIndex)
             {
-                _visitedLocations.Add(point);
+                _positionOfLettersInWord.Add(point);
             }
-            else if (_visitedLocations.Count >= _currentSearchIndex)
+            else if (_positionOfLettersInWord.Count >= _currentSearchIndex)
             {
-                _visitedLocations[_currentSearchIndex - 1] = point;
+                _positionOfLettersInWord[_currentSearchIndex] = point;
             }
             else
             {
@@ -83,12 +83,12 @@ namespace WordBrainSolver.Core.Models
         public void AddCharacter(char character, Point point)
         {
             _word += character;
-            _visitedLocations.Add(point);
+            _positionOfLettersInWord.Add(point);
         }
         public void AddCharacter(char character, int x, int y)
         {
             _word += character;
-            _visitedLocations.Add(new Point(x, y));
+            _positionOfLettersInWord.Add(new Point(x, y));
         }
 
         public bool HasLength(int len)
@@ -99,7 +99,7 @@ namespace WordBrainSolver.Core.Models
         public void RemoveLastCharacter()
         {
             _word.Remove(_word.Length - 1);
-            _visitedLocations.RemoveAt(_visitedLocations.Count - 1);
+            _positionOfLettersInWord.RemoveAt(_positionOfLettersInWord.Count - 1);
         }
     }
 }

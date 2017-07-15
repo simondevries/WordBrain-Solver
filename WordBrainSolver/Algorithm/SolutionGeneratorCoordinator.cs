@@ -42,7 +42,7 @@ namespace WordBrainSolver.Core.Algorithm
                     solutions.AddRange(_wordFinderForLocation.FindWordsForLocation(lives, i, j, board, wordDictionaries));
                 }
             }
-            return SortAndDistinctList(solutions);
+            return solutions;
         }
 
         private char[,] InitializeBoard(string inputBoard, int gridSize)
@@ -60,7 +60,7 @@ namespace WordBrainSolver.Core.Algorithm
             return outputBoard;
         }
 
-        private List<string> SortAndDistinctList(List<string> list)
+        private List<string> DistinctList(List<string> list)
         {
             list.Sort();
             List<string> distinctWords = new List<string>();

@@ -37,10 +37,10 @@ namespace WordBrainSolver.Core.Algorithm
                 foreach (string possibleWord in subDictionary[wordUnderInvestigation.GetWord()])
                 {
                     //Not sure if this deep clone is required but ill just be safe
-                    List<Point> visitedLocations = Clone.DeepClone(wordUnderInvestigation.GetVisitedLocations());
-                    WordUnderInvestigation wordToCheck = new WordUnderInvestigation(possibleWord, visitedLocations, _bruteForceSearchLimit);
+                    List<Point> visitedLocations = Clone.DeepClone(visitedPoints);
+                    WordUnderInvestigation wordToCheck = new WordUnderInvestigation(possibleWord, visitedLocations, _bruteForceSearchLimit - 1);
 
-                    Search(wordToCheck, visitedPoints, board, x, y, foundWords);
+                    Search(wordToCheck, visitedLocations, board, x, y, foundWords);
                 }
             }
         }
@@ -63,22 +63,26 @@ namespace WordBrainSolver.Core.Algorithm
             bool hasBeenVisited = visitedPoints.Any(point => point.HasValue(x, y));
             if (hasBeenVisited) return;
 
-            visitedPoints.Add(new Point(x, y));
-
-            //Case 3- Success! No letters left in possible word
-            if (possibleWord.IsCurrentSearchIndexAtEndOfWord())
-            {
-                foundWords.Add(possibleWord);
-                return;
-            }
-
-            //Case 4- not the next char in this word
+            //Case 3- not the next char in this word
             if (board[x, y] != possibleWord.GetCharAtCurrentSearchIndex())
             {
                 return;
             }
 
+
+            //Case 4- Success! No letters left in possible word
+            if (possibleWord.IsCurrentSearchIndexAtEndOfWord())
+            {
+                possibleWord.AddVisitedLocationAtCurrentSearchPosition(new Point(x, y), board[x, y]); // NB: Must occur before increment index
+                foundWords.Add(possibleWord);
+                return;
+            }
+
+
+
+            visitedPoints.Add(new Point(x, y));
             possibleWord.AddVisitedLocationAtCurrentSearchPosition(new Point(x, y), board[x, y]); // NB: Must occur before increment index
+            //            possibleWord.AddVisitedLocationAtCurrentSearchPosition(new Point(x, y), board[x, y]); // NB: Must occur before increment index
             possibleWord.IncrementCurrentSearchIndex();
             SmartFindSurroundingWords(possibleWord, visitedPoints, board, x, y, foundWords);
         }
