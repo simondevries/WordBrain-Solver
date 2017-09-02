@@ -17,9 +17,12 @@ namespace WordBrainSolver.API.Controllers
         }
 
         // GET api/<controller>/5
-        public string Get(int gridSize, int wordLength, string board)
+        public string Get(int gridSize, string wordLength, string board)
         {
-            List<string> list = _solutionGeneratorCoordinator.GenerateGameSolutions(wordLength, gridSize, board);
+            //todo (sdv)
+            List<int> wordLengths = new List<int>() {gridSize};
+//            List<string> wordLengths = wordLength.Split(',').ToList();
+            List<string> list = _solutionGeneratorCoordinator.GenerateGameSolutions(wordLengths, gridSize, board);
 
             string aggregate = list.Aggregate("", (c, s) => s + ", " + c);
             return aggregate;

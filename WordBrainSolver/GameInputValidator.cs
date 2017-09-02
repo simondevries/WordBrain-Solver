@@ -5,7 +5,7 @@ namespace WordBrainSolver.Core
 {
     public class GameInputValidator : IGameInputValidator
     {
-        public bool Validate(int lookupWordLength, int gridSize, string boardInput)
+        public bool Validate(int lookupWordLength, int gridSize, char[,] boardInput)
         {
             if (lookupWordLength <= 0 || lookupWordLength > boardInput.Length)
             {
