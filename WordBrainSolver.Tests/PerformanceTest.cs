@@ -27,7 +27,7 @@ namespace WordBrainSolver.Tests
             {
                 new TestCase {Board = "webtrsaicnibstwr", Lives = new [] {5, 5, 6}, ExpectedResults = 2}, // Sheep Level 6
                 new TestCase {Board = "lhmbaaoeimodrear", Lives = new [] {7, 3, 6}, ExpectedResults = 2},
-                new TestCase {Board = "ysonelnnhncaolab", Lives = new [] {5, 5, 6}, ExpectedResults = 2} 
+                new TestCase {Board = "ysonelnnhncaolab", Lives = new [] {5, 5, 6}, ExpectedResults = 1} 
             };
 
             foreach (TestCase testCase in testCases)
@@ -45,7 +45,7 @@ namespace WordBrainSolver.Tests
 
             List<string> results = solverSolutionGeneratorCoordinatorCoordinator.GenerateGameSolutions(testCase.Lives, testCase.Board);
 
-            results.Count.Should().Be(2);
+            results.Count.Should().Be(testCase.ExpectedResults);
 
             stopwatch.Stop();
 
