@@ -17,7 +17,7 @@ namespace WordBrainSolver.Tests
                 resultsFormatted += ";" + result;
             }
 
-            string text = string.Format("{0},{1},{2},{3},{4}, {5}, {6}", DateTime.Now, testCase.Board, testCase.GridSize, testCase.Lives, time, resultsFormatted, Environment.MachineName);
+            string text = string.Format("{0},{1},{2},{3},{4}, {5}, {6}", DateTime.Now, testCase.Board, Math.Sqrt(testCase.Board.Length), testCase.Lives, time, resultsFormatted, Environment.MachineName);
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), $@"{ResourcesFolderName}\{DictionaryFileName}");
 

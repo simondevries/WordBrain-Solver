@@ -14,6 +14,8 @@ namespace WordBrainSolver.Core.Algorithm
         private readonly IDictionaryRepository _dictionaryRepository;
         private readonly IWordFinderForLocation _wordFinderForLocation;
         private readonly IGameInputValidator _gameInputValidator;
+        private readonly IRemoveWordFromBoard _removeWordFromBoard;
+
         private readonly List<List<int>> _orderOfExecution = new List<List<int>>() {
             new List<int> { 0, 1, 2},
             new List<int> { 0, 1, 2},
@@ -26,34 +28,37 @@ namespace WordBrainSolver.Core.Algorithm
         /// <summary>
         /// Initializes a new instance of the <see cref="SolutionGeneratorCoordinator"/> class.
         /// </summary>
-        public SolutionGeneratorCoordinator(IDictionaryRepository dictionaryRepository, IWordFinderForLocation wordFinderForLocation, IGameInputValidator gameInputValidator)
+        public SolutionGeneratorCoordinator(IDictionaryRepository dictionaryRepository, IWordFinderForLocation wordFinderForLocation, IGameInputValidator gameInputValidator,
+            IRemoveWordFromBoard removeWordFromBoard)
         {
             _dictionaryRepository = dictionaryRepository;// ?? throw new ArgumentNullException(nameof(dictionaryCoordinator));
             _wordFinderForLocation = wordFinderForLocation;
             _gameInputValidator = gameInputValidator;
+            _removeWordFromBoard = removeWordFromBoard;
         }
 
         /// <summary>
         /// Generates all of the possible solutions to a puzzel
         /// </summary>
-        public List<string> GenerateGameSolutions(List<int> wordLengths, int gridSize, string inputBoard)
+        public List<string> GenerateGameSolutions(int[] wordLengths, string inputBoard)
         {
-            char[,] board = InitializeBoard(inputBoard, gridSize);
+            char[,] board = InitializeBoard(inputBoard);
             var results = new List<string>();
-            Generator(results, string.Empty, 0, 0, wordLengths, gridSize, board);
+            int boardSize = Convert.ToInt32(Math.Sqrt((double)inputBoard.Length));
+            Generator(results, string.Empty, 0, 0, boardSize, wordLengths.ToList(), board);
 
             return results.Distinct().ToList();
         }
 
-        private void Generator(List<string> results, string previouslyFoundWords, int orderOfExecutionCount, int ooeSubIteration, List<int> wordLengths, int gridSize, char[,] inputBoard)
+        private void Generator(List<string> results, string previouslyFoundWords, int orderOfExecutionCount, int orderOfExecution, int gridSize, List<int> wordLengths, char[,] inputBoard)
         {
             //If we have searched all then finish
-            if (ooeSubIteration == wordLengths.Count) return;
+            if (orderOfExecution == wordLengths.Count) return;
 
             if (orderOfExecutionCount == wordLengths.Count) return;
 
             //get the length of the word we are looking for
-            int indexOf = _orderOfExecution[orderOfExecutionCount].IndexOf(ooeSubIteration);
+            int indexOf = _orderOfExecution[orderOfExecutionCount].IndexOf(orderOfExecution);
             int wordLength = wordLengths[indexOf];
 
             // Find the words with this lenght
@@ -64,56 +69,29 @@ namespace WordBrainSolver.Core.Algorithm
             {
                 string previousWordWithCurrentWord = string.Concat(previouslyFoundWords, ", " , word.GetWord());
                 // If there are no more words to search for then return the result
-                if (ooeSubIteration == wordLengths.Count - 1)
+                if (orderOfExecution == wordLengths.Count - 1)
                 {
                     results.Add(previousWordWithCurrentWord);
                     continue;
                 }
 
-                char[,] newBoard = RemoveWords(inputBoard, word.GetVisitedLocations(), gridSize);
+                char[,] newBoard = _removeWordFromBoard.RemoveWords(inputBoard, word.GetVisitedLocations(), gridSize);
                 //remove items from board
-                Generator(results, previousWordWithCurrentWord, orderOfExecutionCount, ooeSubIteration + 1, wordLengths,
-                    gridSize, newBoard);
+                Generator(results, previousWordWithCurrentWord, orderOfExecutionCount, orderOfExecution + 1, gridSize, wordLengths,
+                    newBoard);
             }
 
-            if (ooeSubIteration == 0)
+            if (orderOfExecution == 0)
             {
                 //Test next sub iteration
-                ooeSubIteration = 0;
+                orderOfExecution = 0;
                 previouslyFoundWords = string.Empty;
                 orderOfExecutionCount++;
-                Generator(results, previouslyFoundWords, orderOfExecutionCount, ooeSubIteration, wordLengths, gridSize, inputBoard);
+                Generator(results, previouslyFoundWords, orderOfExecutionCount, orderOfExecution, gridSize, wordLengths, inputBoard);
             }
         }
 
-        private char[,] RemoveWords(char[,] inputBoard, List<Point> positionsToRemove, int gridSize)
-        {
-            char[,] newArray = new char[gridSize, gridSize];
-            Array.Copy(inputBoard, newArray, gridSize * gridSize);
 
-            //todo (sdv) ensure point stats with 0
-            foreach (Point point in positionsToRemove)
-            {
-                //todo (sdv) ensure this gets the corret point
-                newArray[point.X(), point.Y()] = '*';
-            }
-
-            //Move down
-            for (int i = 0; i < gridSize - 1; i++) // Minus one because we dont want to search the bottom row
-            {
-                for (int j = 0; j < gridSize; j++)
-                {
-                    if (newArray[i + 1, j] == '*')
-                    {
-                        char tempStore = newArray[i, j];
-                        newArray[i, j] = '*';
-                        newArray[i + 1, j] = tempStore;
-                    }
-                }
-            }
-
-            return newArray;
-        }
 
         /// <summary>
         /// Generates the game's solutions fro a given state.
@@ -136,8 +114,10 @@ namespace WordBrainSolver.Core.Algorithm
             return solutions;
         }
 
-        private char[,] InitializeBoard(string inputBoard, int gridSize)
+        private char[,] InitializeBoard(string inputBoard)
         {
+            int gridSize =Convert.ToInt32(Math.Sqrt((double) inputBoard.Length));
+
             char[,] outputBoard = new char[gridSize, gridSize];
 
             for (int i = 0; i < gridSize; i++)

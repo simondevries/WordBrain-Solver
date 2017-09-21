@@ -10,6 +10,6 @@ namespace WordBrainSolver.Core.Interfaces
         /// <summary>
         /// Generates the game's solutions.
         /// </summary>
-        List<string> GenerateGameSolutions(List<int> wordLengths, int gridSize, string inputBoard);
+        List<string> GenerateGameSolutions(int[] wordLengths, string inputBoard);
     }
 }

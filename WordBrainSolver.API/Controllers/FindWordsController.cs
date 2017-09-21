@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 using WordBrainSolver.Core.Interfaces;
+using WordBrainSolver.Core.Models;
 
 namespace WordBrainSolver.API.Controllers
 {
@@ -17,12 +18,9 @@ namespace WordBrainSolver.API.Controllers
         }
 
         // GET api/<controller>/5
-        public string Get(int gridSize, string wordLength, string board)
+        public string Post(FindWordsRequestDto findWordsRequestDto)
         {
-            //todo (sdv)
-            List<int> wordLengths = new List<int>() {gridSize};
-//            List<string> wordLengths = wordLength.Split(',').ToList();
-            List<string> list = _solutionGeneratorCoordinator.GenerateGameSolutions(wordLengths, gridSize, board);
+            List<string> list = _solutionGeneratorCoordinator.GenerateGameSolutions(findWordsRequestDto.WordLength, findWordsRequestDto.Board);
 
             string aggregate = list.Aggregate("", (c, s) => s + ", " + c);
             return aggregate;
