@@ -1,6 +1,11 @@
 ﻿ToDo (in order of priority)
 -Create front end
--Check API works with int[]
+-Cache SubDictionary
+-Remove cloning
+-Multi-threading
+-Solve puzzles with more than 3 words
+
+Done
 -Update performance test
 -Increase dictionary size
--Solve puzzles with more than 3 words
+-Check API works with int[]

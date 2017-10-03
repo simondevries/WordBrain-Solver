@@ -17,7 +17,14 @@ namespace WordBrainSolver.API.Controllers
                 // ?? throw new ArgumentNullException(nameof(solutionGeneratorCoordinator));
         }
 
+        [HttpGet]
+        public string Get()
+        {
+            return "test";
+        }
+
         // GET api/<controller>/5
+        [HttpPost]
         public string Post(FindWordsRequestDto findWordsRequestDto)
         {
             List<string> list = _solutionGeneratorCoordinator.GenerateGameSolutions(findWordsRequestDto.WordLength, findWordsRequestDto.Board);

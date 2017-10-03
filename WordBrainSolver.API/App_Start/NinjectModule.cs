@@ -21,6 +21,7 @@ namespace WordBrainSolver.API
             Bind<IBasicPrimaryWordSearcher>().To<BasicPrimaryWordSearcher>().WithConstructorArgument("bruteForceSearchLimit", bruteForceSearchLimit);
             Bind<IIntelligentSecondaryWordSearcher>().To<IntelligentSecondaryWordSearcher>().WithConstructorArgument("bruteForceSearchLimit", bruteForceSearchLimit);
             Bind<IWordDictionariesCacheService>().To<WordDictionariesCacheService>();
+            Bind<IRemoveWordFromBoard>().To<RemoveWordFromBoard>();
         }
     }
 }

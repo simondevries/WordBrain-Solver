@@ -123,6 +123,7 @@
     <Compile Include="Dictionary\DictionaryRepository.cs" />
     <Compile Include="Interfaces\ISubDictionaryGenerator.cs" />
     <Compile Include="Interfaces\IDictionaryRepository.cs" />
+    <Compile Include="Interfaces\ISubDictionaryCacheService.cs" />
     <Compile Include="Interfaces\IWordDictionariesCacheService.cs" />
     <Compile Include="Models\FindWordsRequestDto.cs" />
     <Compile Include="Models\WordDictionaries.cs" />

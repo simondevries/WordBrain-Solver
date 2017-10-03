@@ -19,7 +19,7 @@ namespace WordBrainSolver.Core.Algorithm
             IBasicPrimaryWordSearcher basicPrimaryWordSearcher)
         {
             _subDictionaryCoordinator = subDictionaryCoordinator;
-                // ?? throw new ArgumentNullException(nameof(dictionaryCoordinator));
+            // ?? throw new ArgumentNullException(nameof(dictionaryCoordinator));
             _basicPrimaryWordSearcher = basicPrimaryWordSearcher;
         }
 

@@ -5,7 +5,7 @@ namespace WordBrainSolver.Core.Interfaces
     /// <summary>
     /// Word Dictionary Cache service
     /// </summary>
-    public interface ISubDictionaryCacheService
+    public interface IWordDictionariesCacheService
     {
         /// <summary>
         /// Saves the word dictionary to the cache
