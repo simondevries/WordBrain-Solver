@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using WordBrainSolver.Core.Interfaces;
+using WordBrainSolver.Core.Models;
 
 namespace WordBrainSolver.API.Controllers
 {
@@ -16,10 +18,20 @@ namespace WordBrainSolver.API.Controllers
                 // ?? throw new ArgumentNullException(nameof(solutionGeneratorCoordinator));
         }
 
-        // GET api/<controller>/5
-        public string Get(int gridSize, int wordLength, string board)
+        [HttpGet]
+        public string Get()
         {
-            List<string> list = _solutionGeneratorCoordinator.GenerateGameSolutions(wordLength, gridSize, board);
+            return "test";
+        }
+
+        // GET api/<controller>/5
+        [HttpPost]
+        public string Post(FindWordsRequestDto findWordsRequestDto)
+        {
+            if (findWordsRequestDto.Board == null) throw new Exception("findWordsRequestDto is null");
+            if (findWordsRequestDto.WordLength == null) throw new Exception("WordLength is null");
+
+            List<string> list = _solutionGeneratorCoordinator.GenerateGameSolutions(findWordsRequestDto.WordLength, findWordsRequestDto.Board);
 
             string aggregate = list.Aggregate("", (c, s) => s + ", " + c);
             return aggregate;

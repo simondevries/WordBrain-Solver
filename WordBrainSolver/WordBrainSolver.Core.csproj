@@ -113,6 +113,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\BasicPrimaryWordSearcher.cs" />
+    <Compile Include="GameInputValidator.cs" />
+    <Compile Include="Interfaces\IRemoveWordFromBoard.cs" />
+    <Compile Include="Algorithm\RemoveWordFromBoard.cs" />
     <Compile Include="Clone.cs" />
     <Compile Include="CacheService.cs" />
     <Compile Include="Interfaces\IIntelligentSecondaryWordSearcher.cs" />
@@ -121,18 +124,21 @@
     <Compile Include="Dictionary\DictionaryRepository.cs" />
     <Compile Include="Interfaces\ISubDictionaryGenerator.cs" />
     <Compile Include="Interfaces\IDictionaryRepository.cs" />
+    <Compile Include="Interfaces\ISubDictionaryCacheService.cs" />
     <Compile Include="Interfaces\IWordDictionariesCacheService.cs" />
+    <Compile Include="Models\FindWordsRequestDto.cs" />
+    <Compile Include="Models\WordBrainSolverException.cs" />
     <Compile Include="Models\WordDictionaries.cs" />
     <Compile Include="Algorithm\SolutionGeneratorCoordinator.cs" />
-    <Compile Include="GameInputValidator.cs" />
     <Compile Include="Interfaces\ISolutionGeneratorCoordinator.cs" />
-    <Compile Include="Interfaces\IGameInputValidator.cs" />
     <Compile Include="Interfaces\IWordFinderForLocation.cs" />
     <Compile Include="Algorithm\WordFinderForLocation.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\WordUnderInvestigation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dictionary\SubDictionaryGenerator.cs" />
+    <Content Include="Resources\backlog.txt" />
+    <Content Include="Resources\SnakeLevelAnswers.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

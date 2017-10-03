@@ -47,7 +47,7 @@ namespace WordBrainSolver.Core.Dictionary
         private Dictionary<string, List<string>> GenerateSubDictionaryFromFullDictionary(int wordLengthBeingSearchedFor, WordDictionaries wordDictionaries)
         {
             Dictionary<string, List<string>> subDictionary = new Dictionary<string, List<string>>();
-
+            //todo (sdv) move the sub dictionary results into memory
             foreach (string word in wordDictionaries.GetFullDictionary())
             {
                 if (word.Length == wordLengthBeingSearchedFor)

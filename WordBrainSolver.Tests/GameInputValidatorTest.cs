@@ -1,27 +1,23 @@
-﻿using Moq;
-using NUnit.Framework;
-using WordBrainSolver.Core.Interfaces;
+﻿using NUnit.Framework;
+using WordBrainSolver.Core;
 
 namespace WordBrainSolver.Tests
 {
     public class GameInputValidatorTest
     {
         [Test]
-        public void CanVerifyValidWordLength()
+        public void TestInput()
         {
-            var mock = new Mock<IGameInputValidator>();
-            mock.Setup(foo => foo.Validate(It.IsInRange<int>(0, 10, Range.Inclusive), 1,"asdbc")).Returns(false);
-            mock.Setup(foo => foo.Validate(It.IsInRange<int>(-10, -1, Range.Inclusive), 1,"asdbc")).Returns(false);
-            mock.Setup(foo => foo.Validate(5, 1,"abc")).Returns(false);
-        }
-
-        [Test]
-        public void CanValidateBoardSize()
-        {
-            var mock = new Mock<IGameInputValidator>();
-            mock.Setup(foo => foo.Validate(1, 3, "as")).Returns(false);
-            mock.Setup(foo => foo.Validate(1, 3, "asd")).Returns(true);
-            mock.Setup(foo => foo.Validate(1, 9, "abcabcabcabc")).Returns(true);
+            int[] array = { 9 };
+            Assert.AreEqual(GameInputValidator.IsInputValid(array, "asdasdasd"), true);
+            Assert.AreEqual(GameInputValidator.IsInputValid(array, ""), false);
+            Assert.AreEqual(GameInputValidator.IsInputValid(array, "asda"), false);
+            int[] array2 = { };
+            Assert.AreEqual(GameInputValidator.IsInputValid(array2, "abcabcabc"), false);
+            int[] array3 = { 10 };
+            Assert.AreEqual(GameInputValidator.IsInputValid(array3, "abcabcabc"), false);
+            int[] array4 = { 5, 5 };
+            Assert.AreEqual(GameInputValidator.IsInputValid(array4, "abcabcabc"), false);
         }
     }
 }

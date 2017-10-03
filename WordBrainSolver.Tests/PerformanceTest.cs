@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NUnit.Framework;
-using WordBrainSolver.Core;
 using WordBrainSolver.Core.Algorithm;
 using WordBrainSolver.Tests.Builders;
 
@@ -24,11 +22,12 @@ namespace WordBrainSolver.Tests
         [TestMethod]
         public void PerformanceTestOne()
         {
+            //todo For the expected results, I cannot confirm that the value entered is actually the number of solutions of a puzzle.
             List<TestCase> testCases = new List<TestCase>
             {
-               // new TestCase {Board = "helsolaso", Lives = 5, GridSize = 3, ExpectedResults = 2},
-//                new TestCase {Board = "ohsagebesalrtval", Lives = 5, GridSize = 4, ExpectedResults = 2},
-                new TestCase {Board = "**ey**ai*pnc&chm", Lives =7, GridSize = 4, ExpectedResults = 2},
+                new TestCase {Board = "webtrsaicnibstwr", Lives = new [] {5, 5, 6}, ExpectedResults = 3}, // Sheep Level 6
+                new TestCase {Board = "lhmbaaoeimodrear", Lives = new [] {7, 3, 6}, ExpectedResults = 4},
+                new TestCase {Board = "ysonelnnhncaolab", Lives = new [] {5, 5, 6}, ExpectedResults = 1} 
             };
 
             foreach (TestCase testCase in testCases)
@@ -44,9 +43,9 @@ namespace WordBrainSolver.Tests
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            List<string> results = solverSolutionGeneratorCoordinatorCoordinator.GenerateGameSolutions(testCase.Lives, testCase.GridSize, testCase.Board);
+            List<string> results = solverSolutionGeneratorCoordinatorCoordinator.GenerateGameSolutions(testCase.Lives, testCase.Board);
 
-            results.Count.Should().Be(2);
+            results.Count.Should().Be(testCase.ExpectedResults);
 
             stopwatch.Stop();
 
@@ -55,29 +54,6 @@ namespace WordBrainSolver.Tests
             _testResultsSaver.SaveResults(stopwatch.ElapsedMilliseconds.ToString(), testCase, results);
 
             Console.WriteLine(stopwatch.ElapsedMilliseconds);
-        }
-
-        [Test]
-        public void RunTest()
-        {
-            //1
-            TestCase testCase = new TestCase {Board = "abcdefghijklmnop", Lives = 3, GridSize = 4};
-
-            SolutionGeneratorCoordinator solverSolutionGeneratorCoordinatorCoordinator = new SolutionGeneratorCoordinatorBuilder().Build();
-
-            List<string> results = solverSolutionGeneratorCoordinatorCoordinator.GenerateGameSolutions(testCase.Lives, testCase.GridSize, testCase.Board);
-
-            results.Should().NotBeNull();
-            results.Count.Should().Be(8);
-
-            //2
-
-             testCase = new TestCase { Board = "nshdakuiaoisskeu", Lives = 3, GridSize = 4 };
-            
-            results = solverSolutionGeneratorCoordinatorCoordinator.GenerateGameSolutions(testCase.Lives, testCase.GridSize, testCase.Board);
-
-            results.Should().NotBeNull();
-            results.Count.Should().Be(20);
         }
     }
 }
