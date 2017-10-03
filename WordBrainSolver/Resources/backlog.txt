@@ -1,9 +1,11 @@
 ﻿ToDo (in order of priority)
+-Setup IIS
 -Create front end
--Cache SubDictionary
 -Remove cloning
+-Cache SubDictionary
 -Multi-threading
 -Solve puzzles with more than 3 words
+-Try and host API outside of ASP.NET? Maybe Python?
 
 Done
 -Update performance test

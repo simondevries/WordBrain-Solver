@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\BasicPrimaryWordSearcher.cs" />
+    <Compile Include="GameInputValidator.cs" />
     <Compile Include="Interfaces\IRemoveWordFromBoard.cs" />
     <Compile Include="Algorithm\RemoveWordFromBoard.cs" />
     <Compile Include="Clone.cs" />
@@ -126,11 +127,10 @@
     <Compile Include="Interfaces\ISubDictionaryCacheService.cs" />
     <Compile Include="Interfaces\IWordDictionariesCacheService.cs" />
     <Compile Include="Models\FindWordsRequestDto.cs" />
+    <Compile Include="Models\WordBrainSolverException.cs" />
     <Compile Include="Models\WordDictionaries.cs" />
     <Compile Include="Algorithm\SolutionGeneratorCoordinator.cs" />
-    <Compile Include="GameInputValidator.cs" />
     <Compile Include="Interfaces\ISolutionGeneratorCoordinator.cs" />
-    <Compile Include="Interfaces\IGameInputValidator.cs" />
     <Compile Include="Interfaces\IWordFinderForLocation.cs" />
     <Compile Include="Algorithm\WordFinderForLocation.cs" />
     <Compile Include="Models\Point.cs" />

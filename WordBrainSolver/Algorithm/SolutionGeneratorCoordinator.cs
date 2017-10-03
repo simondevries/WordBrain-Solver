@@ -13,7 +13,6 @@ namespace WordBrainSolver.Core.Algorithm
     {
         private readonly IDictionaryRepository _dictionaryRepository;
         private readonly IWordFinderForLocation _wordFinderForLocation;
-        private readonly IGameInputValidator _gameInputValidator;
         private readonly IRemoveWordFromBoard _removeWordFromBoard;
 
         private readonly List<List<int>> _orderOfExecution = new List<List<int>>() {
@@ -28,12 +27,11 @@ namespace WordBrainSolver.Core.Algorithm
         /// <summary>
         /// Initializes a new instance of the <see cref="SolutionGeneratorCoordinator"/> class.
         /// </summary>
-        public SolutionGeneratorCoordinator(IDictionaryRepository dictionaryRepository, IWordFinderForLocation wordFinderForLocation, IGameInputValidator gameInputValidator,
+        public SolutionGeneratorCoordinator(IDictionaryRepository dictionaryRepository, IWordFinderForLocation wordFinderForLocation,
             IRemoveWordFromBoard removeWordFromBoard)
         {
             _dictionaryRepository = dictionaryRepository;// ?? throw new ArgumentNullException(nameof(dictionaryCoordinator));
             _wordFinderForLocation = wordFinderForLocation;
-            _gameInputValidator = gameInputValidator;
             _removeWordFromBoard = removeWordFromBoard;
         }
 
@@ -42,6 +40,11 @@ namespace WordBrainSolver.Core.Algorithm
         /// </summary>
         public List<string> GenerateGameSolutions(int[] wordLengths, string inputBoard)
         {
+            if (!GameInputValidator.IsInputValid(wordLengths, inputBoard))
+            {
+                throw new WordBrainSolverException("Invalid Input");
+            };
+
             char[,] board = InitializeBoard(inputBoard);
             var results = new List<string>();
             int boardSize = Convert.ToInt32(Math.Sqrt((double)inputBoard.Length));
@@ -91,16 +94,16 @@ namespace WordBrainSolver.Core.Algorithm
             }
         }
 
-
-
         /// <summary>
         /// Generates the game's solutions fro a given state.
         /// </summary>
         public List<WordUnderInvestigation> GenerateGameSolutionsForGameState(int lives, int gridSize, char[,] board)
         {
-            //todo sdv move this elsewhere
-            bool isInputValid = _gameInputValidator.Validate(lives, gridSize, board);
-            if (!isInputValid) return null;
+            //todo sdv move this elsewhere            
+            if (lives <= 0 || lives > board.Length * 2)
+            {
+                return null;
+            }
 
             WordDictionaries wordDictionaries = _dictionaryRepository.RetrieveFullDictionary();
             List<WordUnderInvestigation> solutions = new List<WordUnderInvestigation>();
@@ -129,17 +132,6 @@ namespace WordBrainSolver.Core.Algorithm
             }
 
             return outputBoard;
-        }
-
-        private List<string> DistinctList(List<string> list)
-        {
-            list.Sort();
-            List<string> distinctWords = new List<string>();
-            foreach (string s in list.Distinct())
-            {
-                distinctWords.Add(s);
-            }
-            return distinctWords;
         }
     }
 }

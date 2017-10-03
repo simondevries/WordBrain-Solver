@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using WordBrainSolver.Core.Interfaces;
@@ -27,6 +28,9 @@ namespace WordBrainSolver.API.Controllers
         [HttpPost]
         public string Post(FindWordsRequestDto findWordsRequestDto)
         {
+            if (findWordsRequestDto.Board == null) throw new Exception("findWordsRequestDto is null");
+            if (findWordsRequestDto.WordLength == null) throw new Exception("WordLength is null");
+
             List<string> list = _solutionGeneratorCoordinator.GenerateGameSolutions(findWordsRequestDto.WordLength, findWordsRequestDto.Board);
 
             string aggregate = list.Aggregate("", (c, s) => s + ", " + c);

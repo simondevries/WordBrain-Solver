@@ -1,24 +1,18 @@
 using System;
-using WordBrainSolver.Core.Interfaces;
+using System.Globalization;
+using System.Linq;
 
 namespace WordBrainSolver.Core
 {
-    public class GameInputValidator : IGameInputValidator
+    public static class GameInputValidator
     {
-        public bool Validate(int lookupWordLength, int gridSize, char[,] boardInput)
+        public static bool IsInputValid(int[] lookupWordLength, string inputBoard)
         {
-            if (lookupWordLength <= 0 || lookupWordLength > boardInput.Length)
-            {
-                return false;
-            }
+            int result;
+            bool isInteger = int.TryParse(Math.Sqrt(inputBoard.Length).ToString(CultureInfo.InvariantCulture), out result);
+            int totalLookupWordLength = lookupWordLength.Sum();
 
-            var gridSizeBasedOnBoardInput = Math.Sqrt(boardInput.Length);
-            if (Math.Abs(gridSizeBasedOnBoardInput % 1) <= (double.Epsilon * 100) && (int)gridSizeBasedOnBoardInput != gridSize)
-            {
-                return false;
-            }
-
-            return true;
+            return lookupWordLength.Length != 0 && inputBoard.Length != 0 && lookupWordLength.Length < inputBoard.Length && isInteger && totalLookupWordLength == inputBoard.Length;
         }
     }
 }

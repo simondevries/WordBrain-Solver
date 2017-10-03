@@ -20,7 +20,7 @@ namespace WordBrainSolver.Tests.Builders
 
         public SolutionGeneratorCoordinator Build()
         {
-            return new SolutionGeneratorCoordinator(_dictionaryRepository, _wordFinderForLocation, new GameInputValidator(), _removeWordFromBoard);
+            return new SolutionGeneratorCoordinator(_dictionaryRepository, _wordFinderForLocation, _removeWordFromBoard);
         }
     }
 }
