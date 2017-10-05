@@ -2,13 +2,13 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {Router, Route, browserHistory} from 'react-router';
 
-import {Hello} from './app/hello';
+import {Home} from './app/home';
 
 import './index.less';
 
 ReactDOM.render(
   <Router history={browserHistory}>
-    <Route path='/' component={Hello}/>
+    <Route path='/' component={Home}/>
   </Router>,
   document.getElementById('root')
 );
