@@ -5,6 +5,7 @@ import {Router, Route, browserHistory} from 'react-router';
 import {Home} from './app/home';
 
 import './index.less';
+import '../images/background.jpg';
 
 ReactDOM.render(
   <Router history={browserHistory}>

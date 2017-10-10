@@ -37,6 +37,28 @@ module.exports = {
           'react-hot-loader',
           'ts-loader'
         ]
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(gif|png|jpe?g|svg|webp)$/i,
+        loaders: [
+          'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
+          'image-webpack-loader'
+        ]
+      },
+      { 
+        test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, 
+        loader: 'file-loader?name=fonts/[name].[ext]' 
       }
     ]
   },
