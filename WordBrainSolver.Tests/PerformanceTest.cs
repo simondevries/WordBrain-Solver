@@ -29,8 +29,8 @@ namespace WordBrainSolver.Tests
             {
                 new TestCase {Board = "webtrsaicnibstwr", Lives = new[] {5, 5, 6}, ExpectedResults = 3},
                 // Sheep Level 6
-//                new TestCase {Board = "lhmbaaoeimodrear", Lives = new [] {7, 3, 6}, ExpectedResults = 4},
-//                new TestCase {Board = "ysonelnnhncaolab", Lives = new [] {5, 5, 6}, ExpectedResults = 1} 
+                new TestCase {Board = "lhmbaaoeimodrear", Lives = new [] {7, 3, 6}, ExpectedResults = 4},
+                new TestCase {Board = "ysonelnnhncaolab", Lives = new [] {5, 5, 6}, ExpectedResults = 1} 
             };
 
             foreach (TestCase testCase in testCases)

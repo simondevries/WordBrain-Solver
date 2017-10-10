@@ -12,7 +12,7 @@ interface IHomePageState {
   errorMessage,
   foundWords,
   showResult,
-  isLoading
+  isLoading,
 };
 
 export class HomePage extends React.Component<IHomePageProps, IHomePageState> {
@@ -28,6 +28,7 @@ export class HomePage extends React.Component<IHomePageProps, IHomePageState> {
     this.setErrorMessage = this.setErrorMessage.bind(this);
     this.setIsLoading = this.setIsLoading.bind(this);
     this.setShowResults = this.setShowResults.bind(this);
+    this.setFoundWords = this.setFoundWords.bind(this);
     this.reset = this.reset.bind(this);
   }
 
@@ -36,13 +37,20 @@ export class HomePage extends React.Component<IHomePageProps, IHomePageState> {
       <div className='container'>
         <h1>Word brain puzzle solver</h1>
         <div className={!this.state.showResult && !this.state.isLoading ? 'page' : 'hidden'}>
-          <GridInputPage setErrorMessageFunction={this.setErrorMessage} setShowResultsFunction={this.setShowResults} setIsLoadingFunction={this.setIsLoading} />
-        </div>
-        <div className={this.state.showResult && !this.state.isLoading ? 'page' : 'hidden'}>
-          <GameResultsPage errorMessage={this.state.errorMessage} foundWords={this.state.foundWords} resetFunction={this.reset} />
+          <GridInputPage
+            setErrorMessageFunction={this.setErrorMessage} 
+            setFoundWordsFunction={this.setFoundWords} 
+            setShowResultsFunction={this.setShowResults} 
+            setIsLoadingFunction={this.setIsLoading} />
         </div>
         <div className={this.state.isLoading ? 'loading page' : 'hidden loading'}>
           <LoadingPage />
+        </div>
+        <div className={this.state.showResult && !this.state.isLoading ? 'page' : 'hidden'}>
+          <GameResultsPage 
+            errorMessage={this.state.errorMessage} 
+            foundWords={this.state.foundWords} 
+            resetFunction={this.reset} />
         </div>
       </div>
     );
@@ -62,5 +70,9 @@ export class HomePage extends React.Component<IHomePageProps, IHomePageState> {
 
   reset() {
     this.setState({ showResult: false });
+  }
+
+  setFoundWords(value){
+    this.setState({ foundWords: value })
   }
 }

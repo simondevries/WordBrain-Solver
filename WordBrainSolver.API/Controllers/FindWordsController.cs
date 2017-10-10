@@ -35,7 +35,7 @@ namespace WordBrainSolver.API.Controllers
 
             List<string> list = _solutionGeneratorCoordinator.GenerateGameSolutions(findWordsRequestDto.WordLength, findWordsRequestDto.Board);
 
-            string aggregate = list.Aggregate("", (c, s) => s + " & " + c);
+            string aggregate = list.Aggregate("", (c, s) => s + "   ~ ~ ~   " + c);
             return aggregate;
         }
     }

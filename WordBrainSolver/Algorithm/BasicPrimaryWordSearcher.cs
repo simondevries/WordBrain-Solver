@@ -63,36 +63,28 @@ namespace WordBrainSolver.Core.Algorithm
 
             // todo get rid of gross cloning
             List<Point> clonedVisitedPoints = new List<Point>(visitedPoints);
-            WordUnderInvestigation clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
-            Search(clonedVisitedPoints, lives, x - 1, y - 1, clonedWordUnderInvestigation, board, foundWords, subDictionary);
+            Search(clonedVisitedPoints, lives, x - 1, y - 1, new WordUnderInvestigation(wordUnderInvestigation), board, foundWords, subDictionary);
 
-            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedVisitedPoints, lives, x, y - 1, clonedWordUnderInvestigation, board, foundWords, subDictionary);
+            Search(clonedVisitedPoints, lives, x, y - 1, new WordUnderInvestigation(wordUnderInvestigation), board, foundWords, subDictionary);
 
-            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedVisitedPoints, lives, x + 1, y - 1, clonedWordUnderInvestigation, board, foundWords, subDictionary);
+            Search(clonedVisitedPoints, lives, x + 1, y - 1, new WordUnderInvestigation(wordUnderInvestigation), board, foundWords, subDictionary);
 
-            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedVisitedPoints, lives, x - 1, y, clonedWordUnderInvestigation, board, foundWords, subDictionary);
+            Search(clonedVisitedPoints, lives, x - 1, y, new WordUnderInvestigation(wordUnderInvestigation), board, foundWords, subDictionary);
 
-            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedVisitedPoints, lives, x + 1, y, clonedWordUnderInvestigation, board, foundWords, subDictionary);
+            Search(clonedVisitedPoints, lives, x + 1, y, new WordUnderInvestigation(wordUnderInvestigation), board, foundWords, subDictionary);
 
-            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedVisitedPoints, lives, x - 1, y + 1, clonedWordUnderInvestigation, board, foundWords, subDictionary);
+            Search(clonedVisitedPoints, lives, x - 1, y + 1, new WordUnderInvestigation(wordUnderInvestigation), board, foundWords, subDictionary);
 
-            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedVisitedPoints, lives, x, y + 1, clonedWordUnderInvestigation, board, foundWords, subDictionary);
+            Search(clonedVisitedPoints, lives, x, y + 1, new WordUnderInvestigation(wordUnderInvestigation), board, foundWords, subDictionary);
 
-            clonedWordUnderInvestigation = Clone.DeepClone(wordUnderInvestigation);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedVisitedPoints, lives, x + 1, y + 1, clonedWordUnderInvestigation, board, foundWords, subDictionary);
+            Search(clonedVisitedPoints, lives, x + 1, y + 1, new WordUnderInvestigation(wordUnderInvestigation), board, foundWords, subDictionary);
             wordUnderInvestigation.RemoveLastCharacter();
         }
     }

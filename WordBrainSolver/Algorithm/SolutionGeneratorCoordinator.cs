@@ -73,7 +73,7 @@ namespace WordBrainSolver.Core.Algorithm
             //For each one found, search for remaining words after removing the found words from the board
             foreach (WordUnderInvestigation word in foundWords)
             {
-                string previousWordWithCurrentWord = string.Concat(previouslyFoundWords, ", " , word.GetWord());
+                string previousWordWithCurrentWord = string.IsNullOrWhiteSpace(previouslyFoundWords) ? word.GetWord() : string.Concat(previouslyFoundWords, ", " , word.GetWord());
                 // If there are no more words to search for then return the result
                 if (orderOfExecution == wordLengths.Count - 1)
                 {

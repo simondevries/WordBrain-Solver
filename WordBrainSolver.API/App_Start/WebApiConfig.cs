@@ -13,8 +13,8 @@ namespace WordBrainSolver.API
         {
             // Web API configuration and services
 
-                        var cors = new EnableCorsAttribute("http://localhost:3000", "*", "*");
-//            var cors = new EnableCorsAttribute("https://wordbrainsolver-2366a.firebaseapp.com", "*", "*");
+//                        var cors = new EnableCorsAttribute("http://localhost:3000", "*", "*");
+            var cors = new EnableCorsAttribute("https://wordbrainsolver-2366a.firebaseapp.com", "*", "*");
             config.EnableCors(cors);
             // Web API routes
             config.MapHttpAttributeRoutes();

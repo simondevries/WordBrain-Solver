@@ -11,6 +11,6 @@ namespace WordBrainSolver.Core.Interfaces
         /// <summary>
         /// Removes a word from the board and then moves shuffles everything down according to gravity
         /// </summary>
-        char[,] RemoveWords(char[,] inputBoard, List<Point> positionsToRemove, int gridSize);
+        char[,] RemoveWords(char[,] inputBoard, Point[] positionsToRemove, int gridSize);
     }
 }

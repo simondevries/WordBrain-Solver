@@ -3,7 +3,8 @@ import * as React from 'react';
 interface IGridInputPageProps {
     setShowResultsFunction,
     setIsLoadingFunction,
-    setErrorMessageFunction
+    setErrorMessageFunction,
+    setFoundWordsFunction
 };
 
 interface IGridInputPageState {
@@ -137,17 +138,17 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
         }).then(function (response) {
             response.json().then(response => {
                 if (!!response.ExceptionMessage) {
-                    this.props.setErrorMessage('Somethings went wrong :( \n ' + response.ExceptionMessage);
+                    self.props.setErrorMessageFunction('Somethings went wrong :( \n ' + response.ExceptionMessage);
                 } else {
-                    this.props.setErrorMessage('Somethings went wrong :( \n ' + response);
+                    self.props.setFoundWordsFunction(response);
                 }
-                this.props.setIsLoading(false);
-                this.props.setShowResults(true);
+                self.props.setIsLoadingFunction(false);
+                self.props.setShowResultsFunction(true);
             });
         }).catch(() => {
-            this.props.setErrorMessageFunction('something went wrong :(');
-            this.props.setIsLoadingFunction(false);
-            this.props.setShowResultsFunction(true);
+            self.props.setErrorMessageFunction('something went wrong :(');
+            self.props.setIsLoadingFunction(false);
+            self.props.setShowResultsFunction(true);
         })
     }
 }

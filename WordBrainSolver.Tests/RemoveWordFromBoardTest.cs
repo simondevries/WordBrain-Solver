@@ -23,7 +23,7 @@ namespace WordBrainSolver.Tests
         {
             //  Screw -> Twins -> Rabbit
             char[,] board = _inputBoard;
-            List<Point> pointsToRemove = new List<Point>()
+           Point[] pointsToRemove = new Point[]
             {
                 new Point(0,0),
                 new Point(0,1),
@@ -36,7 +36,7 @@ namespace WordBrainSolver.Tests
             
             board.Should().Equal(_expectedBoardAfterIterationOne);
 
-            pointsToRemove = new List<Point>()
+            pointsToRemove = new Point[]
             {
                 new Point(3,1),
                 new Point(3,2),
