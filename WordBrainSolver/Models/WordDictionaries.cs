@@ -9,7 +9,7 @@ namespace WordBrainSolver.Core.Models
     public class WordDictionaries
     {
         private readonly string[] _fullDictionary;
-        private readonly Dictionary<string, Dictionary<string, List<string>>> _subDictionaries;
+        private readonly Dictionary<string, Dictionary<string, IEnumerable<string>>> _subDictionaries;
 
         /// <summary>
         /// Constructor
@@ -17,7 +17,7 @@ namespace WordBrainSolver.Core.Models
         public WordDictionaries(string[] fullDictionary)
         {
             _fullDictionary = fullDictionary;
-            _subDictionaries = new Dictionary<string, Dictionary<string, List<string>>>();
+            _subDictionaries = new Dictionary<string, Dictionary<string, IEnumerable<string>>>();
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace WordBrainSolver.Core.Models
         /// <summary>
         /// Sets the sub dictionary used in the intelligent secondary word search
         /// </summary>
-        public void AddItemToSubDictionary(string key, Dictionary<string, List<string>> subDictionary)
+        public void AddItemToSubDictionary(string key, Dictionary<string, IEnumerable<string>> subDictionary)
         {
             _subDictionaries.Add(key, subDictionary);
         }
@@ -48,7 +48,7 @@ namespace WordBrainSolver.Core.Models
         /// <summary>
         /// Returns a sub dictionary used in the intelligent secondary word search
         /// </summary>
-        public Dictionary<string, List<string>> GetSubDictionary(string key)
+        public Dictionary<string, IEnumerable<string>> GetSubDictionary(string key)
         {
             if (string.IsNullOrEmpty(key))
             {

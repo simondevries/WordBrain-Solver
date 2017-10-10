@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using WordBrainSolver.Core.Interfaces;
 using WordBrainSolver.Core.Models;
 
@@ -24,12 +26,14 @@ namespace WordBrainSolver.Core.Dictionary
         /// Returns a sub dictionary for the specified word length being searched for
         /// Adds the entry to the current wordDictionaries for future access.
         /// </summary>
-        public Dictionary<string, List<string>> RetrieveSubDictionary(int wordLengthBeingSearchedFor, WordDictionaries wordDictionaries)
+        public Dictionary<string, IEnumerable<string>> RetrieveSubDictionaryForWord(int wordLengthBeingSearchedFor,
+            WordDictionaries wordDictionaries)
         {
             // TODO Make sure this is thread-safe.
             if (!wordDictionaries.IsFullDictionaryGenerated())
             {
-                throw new InvalidOperationException("Cannot generatre sub dictionary when full dictionary is empty or not initialized");
+                throw new InvalidOperationException(
+                    "Cannot generatre sub dictionary when full dictionary is empty or not initialized");
             }
 
             int _bruteForceSearchLimit = 3;
@@ -39,15 +43,16 @@ namespace WordBrainSolver.Core.Dictionary
                 return wordDictionaries.GetSubDictionary(key);
             }
 
-            Dictionary<string, List<string>> generatedSubDictionary = GenerateSubDictionaryFromFullDictionary(wordLengthBeingSearchedFor, wordDictionaries);
+            Dictionary<string, IEnumerable<string>> generatedSubDictionary =
+                GenerateSubDictionaryFromFullDictionary(wordLengthBeingSearchedFor, wordDictionaries);
             wordDictionaries.AddItemToSubDictionary(key, generatedSubDictionary);
             return generatedSubDictionary;
         }
 
-        private Dictionary<string, List<string>> GenerateSubDictionaryFromFullDictionary(int wordLengthBeingSearchedFor, WordDictionaries wordDictionaries)
+        private Dictionary<string, IEnumerable<string>> GenerateSubDictionaryFromFullDictionary(
+            int wordLengthBeingSearchedFor, WordDictionaries wordDictionaries)
         {
-            Dictionary<string, List<string>> subDictionary = new Dictionary<string, List<string>>();
-            //todo (sdv) move the sub dictionary results into memory
+            Dictionary<string, IEnumerable<string>> subDictionary = new Dictionary<string, IEnumerable<string>>();
             foreach (string word in wordDictionaries.GetFullDictionary())
             {
                 if (word.Length == wordLengthBeingSearchedFor)
@@ -55,15 +60,16 @@ namespace WordBrainSolver.Core.Dictionary
                     string keyLetters = word.Substring(0, _bruteForceSearchLimit);
                     if (subDictionary.ContainsKey(keyLetters))
                     {
-                        subDictionary[keyLetters].Add(word);
+                        IEnumerable<string> enumerable = subDictionary[keyLetters];
+                        enumerable = enumerable.Concat(new[] {word});
+                        subDictionary[keyLetters] = enumerable;
                     }
                     else
                     {
-                        subDictionary.Add(keyLetters, new List<string> { word });
+                        subDictionary.Add(keyLetters, new List<string> {word});
                     }
                 }
             }
-
             return subDictionary;
         }
     }

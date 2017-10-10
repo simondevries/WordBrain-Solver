@@ -25,7 +25,7 @@ namespace WordBrainSolver.Core.Algorithm
         /// Runs search on all words that start with the same three characters
         /// </summary>
         public void InitiateSearch(List<Point> visitedPoints, int x, int y, WordUnderInvestigation wordUnderInvestigation, char[,] board,
-            List<WordUnderInvestigation> foundWords, Dictionary<string, List<string>> subDictionary)
+            List<WordUnderInvestigation> foundWords, Dictionary<string, IEnumerable<string>> subDictionary)
         {
             if (!wordUnderInvestigation.HasLength(_bruteForceSearchLimit))
             {
