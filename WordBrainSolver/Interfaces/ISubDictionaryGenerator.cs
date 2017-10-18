@@ -11,7 +11,7 @@ namespace WordBrainSolver.Core.Interfaces
         /// <summary>
         /// Adds a sub dictionary to the word dictionary for the specified word length being searched for
         /// </summary>
-        Dictionary<string, List<string>> RetrieveSubDictionary(int wordLengthBeingSearchedFor,
+        Dictionary<string, IEnumerable<string>> RetrieveSubDictionaryForWord(int wordLengthBeingSearchedFor,
             WordDictionaries wordDictionaries);
     }
 }

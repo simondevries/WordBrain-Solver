@@ -29,8 +29,8 @@ namespace WordBrainSolver.Core.Algorithm
         public List<WordUnderInvestigation> FindWordsForLocation(int wordLengthBeingSearchedFor, int x, int y, char[,] board, WordDictionaries wordDictionaries)
         {
             List<WordUnderInvestigation> foundWords = new List<WordUnderInvestigation>();
-            Dictionary<string, List<string>> subDictionary =
-                _subDictionaryCoordinator.RetrieveSubDictionary(wordLengthBeingSearchedFor, wordDictionaries);
+            Dictionary<string, IEnumerable<string>> subDictionary =
+                _subDictionaryCoordinator.RetrieveSubDictionaryForWord(wordLengthBeingSearchedFor, wordDictionaries);
             _basicPrimaryWordSearcher.Search(new List<Point>(), wordLengthBeingSearchedFor, x, y, new WordUnderInvestigation(), board,
                 foundWords, subDictionary);
 

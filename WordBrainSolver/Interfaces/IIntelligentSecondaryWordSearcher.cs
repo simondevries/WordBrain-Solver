@@ -12,6 +12,6 @@ namespace WordBrainSolver.Core.Interfaces
         /// Initiates the search
         /// </summary>
         void InitiateSearch(List<Point> visitedPoints, int x, int y, WordUnderInvestigation wordUnderInvestigation, char[,] board,
-            List<WordUnderInvestigation> foundWords, Dictionary<string, List<string>> subDictionary);
+            List<WordUnderInvestigation> foundWords, Dictionary<string, IEnumerable<string>> subDictionary);
     }
 }

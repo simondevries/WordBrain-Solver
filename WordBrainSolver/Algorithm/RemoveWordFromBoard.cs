@@ -13,7 +13,7 @@ namespace WordBrainSolver.Core.Algorithm
         /// <summary>
         /// Removes a word from the board and then moves shuffles everything down according to gravity
         /// </summary>
-        public char[,] RemoveWords(char[,] inputBoard, List<Point> positionsToRemove, int gridSize)
+        public char[,] RemoveWords(char[,] inputBoard, Point[] positionsToRemove, int gridSize)
         {
             char[,] newArray = new char[gridSize, gridSize];
             Array.Copy(inputBoard, newArray, gridSize * gridSize);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using WordBrainSolver.Core.Interfaces;
 using WordBrainSolver.Core.Models;
@@ -14,6 +15,7 @@ namespace WordBrainSolver.Core.Algorithm
         private readonly IDictionaryRepository _dictionaryRepository;
         private readonly IWordFinderForLocation _wordFinderForLocation;
         private readonly IRemoveWordFromBoard _removeWordFromBoard;
+        private WordDictionaries _wordDictionaries;
 
         private readonly List<List<int>> _orderOfExecution = new List<List<int>>() {
             new List<int> { 0, 1, 2},
@@ -23,6 +25,7 @@ namespace WordBrainSolver.Core.Algorithm
             new List<int> { 2, 0, 1},
             new List<int> { 2, 1, 0},
         };
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SolutionGeneratorCoordinator"/> class.
@@ -44,7 +47,7 @@ namespace WordBrainSolver.Core.Algorithm
             {
                 throw new WordBrainSolverException("Invalid Input");
             };
-
+            _wordDictionaries = _dictionaryRepository.RetrieveFullDictionary();
             char[,] board = InitializeBoard(inputBoard);
             var results = new List<string>();
             int boardSize = Convert.ToInt32(Math.Sqrt((double)inputBoard.Length));
@@ -65,20 +68,20 @@ namespace WordBrainSolver.Core.Algorithm
             int wordLength = wordLengths[indexOf];
 
             // Find the words with this lenght
-            List<WordUnderInvestigation> foundWords = GenerateGameSolutionsForGameState(wordLength, gridSize, inputBoard);
+            IEnumerable<WordUnderInvestigation> foundWords = GenerateGameSolutionsForGameState(wordLength, gridSize, inputBoard);
 
             //For each one found, search for remaining words after removing the found words from the board
             foreach (WordUnderInvestigation word in foundWords)
             {
-                string previousWordWithCurrentWord = string.Concat(previouslyFoundWords, ", " , word.GetWord());
+                string previousWordWithCurrentWord = string.IsNullOrWhiteSpace(previouslyFoundWords) ? word.GetWord() : string.Concat(previouslyFoundWords, ", " , word.GetWord());
                 // If there are no more words to search for then return the result
                 if (orderOfExecution == wordLengths.Count - 1)
                 {
                     results.Add(previousWordWithCurrentWord);
                     continue;
                 }
-
                 char[,] newBoard = _removeWordFromBoard.RemoveWords(inputBoard, word.GetVisitedLocations(), gridSize);
+
                 //remove items from board
                 Generator(results, previousWordWithCurrentWord, orderOfExecutionCount, orderOfExecution + 1, gridSize, wordLengths,
                     newBoard);
@@ -105,13 +108,12 @@ namespace WordBrainSolver.Core.Algorithm
                 return null;
             }
 
-            WordDictionaries wordDictionaries = _dictionaryRepository.RetrieveFullDictionary();
             List<WordUnderInvestigation> solutions = new List<WordUnderInvestigation>();
             for (int i = 0; i < gridSize; i++)
             {
                 for (int j = 0; j < gridSize; j++)
                 {
-                    solutions.AddRange(_wordFinderForLocation.FindWordsForLocation(lives, i, j, board, wordDictionaries));
+                    solutions.AddRange(_wordFinderForLocation.FindWordsForLocation(lives, i, j, board, _wordDictionaries));
                 }
             }
             return solutions;

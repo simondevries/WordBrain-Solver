@@ -11,6 +11,7 @@ namespace WordBrainSolver.Core.Interfaces
         /// <summary>
         /// Generates the game's solutions.
         /// </summary>
-        List<WordUnderInvestigation> FindWordsForLocation(int lives, int x, int y, char[,] board, WordDictionaries wordDictionaries);
-    }
+        List<WordUnderInvestigation> FindWordsForLocation(int wordLengthBeingSearchedFor, int x, int y, char[,] board,
+            WordDictionaries wordDictionaries);
+        }
 }

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
+using System.Web.Mvc;
 using WordBrainSolver.Core.Interfaces;
 using WordBrainSolver.Core.Models;
 
 namespace WordBrainSolver.API.Controllers
 {
-    [AllowCrossSiteJson]
+    [RequireHttps]
     public class FindWordsController : ApiController
     {
         private readonly ISolutionGeneratorCoordinator _solutionGeneratorCoordinator;
@@ -18,14 +20,14 @@ namespace WordBrainSolver.API.Controllers
                 // ?? throw new ArgumentNullException(nameof(solutionGeneratorCoordinator));
         }
 
-        [HttpGet]
+        [System.Web.Http.HttpGet]
         public string Get()
         {
             return "test";
         }
 
         // GET api/<controller>/5
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         public string Post(FindWordsRequestDto findWordsRequestDto)
         {
             if (findWordsRequestDto.Board == null) throw new Exception("findWordsRequestDto is null");
@@ -33,7 +35,7 @@ namespace WordBrainSolver.API.Controllers
 
             List<string> list = _solutionGeneratorCoordinator.GenerateGameSolutions(findWordsRequestDto.WordLength, findWordsRequestDto.Board);
 
-            string aggregate = list.Aggregate("", (c, s) => s + ", " + c);
+            string aggregate = list.Aggregate("", (c, s) => s + "   ~ ~ ~   " + c);
             return aggregate;
         }
     }

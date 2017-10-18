@@ -25,7 +25,7 @@ namespace WordBrainSolver.Core.Algorithm
         /// Runs search on all words that start with the same three characters
         /// </summary>
         public void InitiateSearch(List<Point> visitedPoints, int x, int y, WordUnderInvestigation wordUnderInvestigation, char[,] board,
-            List<WordUnderInvestigation> foundWords, Dictionary<string, List<string>> subDictionary)
+            List<WordUnderInvestigation> foundWords, Dictionary<string, IEnumerable<string>> subDictionary)
         {
             if (!wordUnderInvestigation.HasLength(_bruteForceSearchLimit))
             {
@@ -39,7 +39,6 @@ namespace WordBrainSolver.Core.Algorithm
                     //Not sure if this deep clone is required but ill just be safe
                     List<Point> visitedLocations = Clone.DeepClone(visitedPoints);
                     WordUnderInvestigation wordToCheck = new WordUnderInvestigation(possibleWord, visitedLocations, _bruteForceSearchLimit - 1);
-
                     Search(wordToCheck, visitedLocations, board, x, y, foundWords);
                 }
             }
@@ -90,36 +89,28 @@ namespace WordBrainSolver.Core.Algorithm
         private void SmartFindSurroundingWords(WordUnderInvestigation possibleWord, List<Point> visitedPoints, char[,] board, int x, int y, List<WordUnderInvestigation> foundWords)
         {
             List<Point> clonedVisitedPoints = new List<Point>(visitedPoints);
-            WordUnderInvestigation clonedPossibleWord = Clone.DeepClone(possibleWord);
-            Search(clonedPossibleWord, clonedVisitedPoints, board, x - 1, y - 1, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x - 1, y - 1, foundWords);
 
-            clonedPossibleWord = Clone.DeepClone(possibleWord);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedPossibleWord, clonedVisitedPoints, board, x, y - 1, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x, y - 1, foundWords);
 
-            clonedPossibleWord = Clone.DeepClone(possibleWord);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedPossibleWord, clonedVisitedPoints, board, x + 1, y - 1, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x + 1, y - 1, foundWords);
 
-            clonedPossibleWord = Clone.DeepClone(possibleWord);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedPossibleWord, clonedVisitedPoints, board, x - 1, y, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x - 1, y, foundWords);
 
-            clonedPossibleWord = Clone.DeepClone(possibleWord);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedPossibleWord, clonedVisitedPoints, board, x + 1, y, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x + 1, y, foundWords);
 
-            clonedPossibleWord = Clone.DeepClone(possibleWord);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedPossibleWord, clonedVisitedPoints, board, x - 1, y + 1, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x - 1, y + 1, foundWords);
 
-            clonedPossibleWord = Clone.DeepClone(possibleWord);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedPossibleWord, clonedVisitedPoints, board, x, y + 1, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x, y + 1, foundWords);
 
-            clonedPossibleWord = Clone.DeepClone(possibleWord);
             clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(clonedPossibleWord, clonedVisitedPoints, board, x + 1, y + 1, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x + 1, y + 1, foundWords);
         }
     }
 }
