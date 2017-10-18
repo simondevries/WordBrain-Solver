@@ -94,7 +94,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WordBrainSolver\WordBrainSolver.Core.csproj">
+    <ProjectReference Include="..\WordBrainSolver.Core\WordBrainSolver.Core.csproj">
       <Project>{800072cb-30a5-401d-a409-32640c5c7b52}</Project>
       <Name>WordBrainSolver.Core</Name>
     </ProjectReference>

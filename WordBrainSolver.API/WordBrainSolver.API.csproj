@@ -27,6 +27,7 @@
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/96a6ff76-9ac7-4c55-a163-60a5454e3e17/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/WordBrainSolver.API</ApplicationInsightsResourceId>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -307,7 +308,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WordBrainSolver\WordBrainSolver.Core.csproj">
+    <ProjectReference Include="..\WordBrainSolver.Core\WordBrainSolver.Core.csproj">
       <Project>{800072cb-30a5-401d-a409-32640c5c7b52}</Project>
       <Name>WordBrainSolver.Core</Name>
     </ProjectReference>
