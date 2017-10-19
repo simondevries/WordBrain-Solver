@@ -17,9 +17,9 @@ namespace WordBrainSolver.Core
         /// <summary>
         /// Constructor
         /// </summary>
-        public WordDictionariesCacheService()
+        public WordDictionariesCacheService(IMemoryCache memoryCache)
         {
-            _memoryCache = new MemoryCache(new MemoryCacheOptions());
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
         /// <summary>
