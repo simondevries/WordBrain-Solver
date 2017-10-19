@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WordBrainSolver.Core.Models;
 
 namespace WordBrainSolver.Core.Interfaces
@@ -10,6 +11,6 @@ namespace WordBrainSolver.Core.Interfaces
         /// <summary>
         /// Retrieves the content of the dictionary.
         /// </summary>
-        WordDictionaries RetrieveFullDictionary();
+        Task<WordDictionaries> RetrieveFullDictionary();
     }
 }

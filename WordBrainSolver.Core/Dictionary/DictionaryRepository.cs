@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using WordBrainSolver.Core.Interfaces;
@@ -27,7 +28,7 @@ namespace WordBrainSolver.Core.Dictionary
         /// <summary>
         /// Retrieves the content of the dictionary.
         /// </summary>
-        public WordDictionaries RetrieveFullDictionary()
+        public async Task<WordDictionaries> RetrieveFullDictionary()
         {
             // TODO Implement caching.
             // TODO Make sure this is thread-safe.  CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_storageConnectionString);
@@ -51,7 +52,7 @@ namespace WordBrainSolver.Core.Dictionary
             string content;
             using (var memoryStream = new MemoryStream())
             {
-                blockBlob2.DownloadToStream(memoryStream);
+                await blockBlob2.DownloadToStreamAsync(memoryStream);
                 content = System.Text.Encoding.UTF8.GetString(memoryStream.ToArray());
             }
 

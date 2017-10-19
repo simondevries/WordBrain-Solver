@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WordBrainSolver.Core.Interfaces
 {
@@ -10,6 +11,6 @@ namespace WordBrainSolver.Core.Interfaces
         /// <summary>
         /// Generates the game's solutions.
         /// </summary>
-        List<string> GenerateGameSolutions(int[] wordLengths, string inputBoard);
+        Task<List<string>> GenerateGameSolutions(int[] wordLengths, string inputBoard);
     }
 }

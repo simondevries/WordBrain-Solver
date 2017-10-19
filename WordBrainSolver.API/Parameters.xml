@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<parameters>
-  <parameter name="DefaultConnection-Web.config Connection String"
-      description="DefaultConnection"
-      defaultValue="Server=tcp:x.database.windows.net,1433;Database=x_db;User ID=x@y;Password=z;Trusted_Connection=False;etc." tags="" />
-
-</parameters>

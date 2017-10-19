@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using WordBrainSolver.Core.Interfaces;
 using WordBrainSolver.Core.Models;
 
@@ -41,13 +42,13 @@ namespace WordBrainSolver.Core.Algorithm
         /// <summary>
         /// Generates all of the possible solutions to a puzzel
         /// </summary>
-        public List<string> GenerateGameSolutions(int[] wordLengths, string inputBoard)
+        public async Task<List<string>> GenerateGameSolutions(int[] wordLengths, string inputBoard)
         {
             if (!GameInputValidator.IsInputValid(wordLengths, inputBoard))
             {
                 throw new WordBrainSolverException("Invalid Input");
             };
-            _wordDictionaries = _dictionaryRepository.RetrieveFullDictionary();
+            _wordDictionaries = await _dictionaryRepository.RetrieveFullDictionary();
             char[,] board = InitializeBoard(inputBoard);
             var results = new List<string>();
             int boardSize = Convert.ToInt32(Math.Sqrt((double)inputBoard.Length));
@@ -73,7 +74,7 @@ namespace WordBrainSolver.Core.Algorithm
             //For each one found, search for remaining words after removing the found words from the board
             foreach (WordUnderInvestigation word in foundWords)
             {
-                string previousWordWithCurrentWord = string.IsNullOrWhiteSpace(previouslyFoundWords) ? word.GetWord() : string.Concat(previouslyFoundWords, ", " , word.GetWord());
+                string previousWordWithCurrentWord = string.IsNullOrWhiteSpace(previouslyFoundWords) ? word.GetWord() : string.Concat(previouslyFoundWords, ", ", word.GetWord());
                 // If there are no more words to search for then return the result
                 if (orderOfExecution == wordLengths.Count - 1)
                 {
@@ -121,7 +122,7 @@ namespace WordBrainSolver.Core.Algorithm
 
         private char[,] InitializeBoard(string inputBoard)
         {
-            int gridSize =Convert.ToInt32(Math.Sqrt((double) inputBoard.Length));
+            int gridSize = Convert.ToInt32(Math.Sqrt((double)inputBoard.Length));
 
             char[,] outputBoard = new char[gridSize, gridSize];
 

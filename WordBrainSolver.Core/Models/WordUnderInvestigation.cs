@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace WordBrainSolver.Core.Models
 {
-    [Serializable]
     public class WordUnderInvestigation
     {
         private string _word;
