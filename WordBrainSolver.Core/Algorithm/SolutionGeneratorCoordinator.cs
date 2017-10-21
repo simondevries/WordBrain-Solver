@@ -16,15 +16,8 @@ namespace WordBrainSolver.Core.Algorithm
         private readonly IWordFinderForLocation _wordFinderForLocation;
         private readonly IRemoveWordFromBoard _removeWordFromBoard;
         private WordDictionaries _wordDictionaries;
-
-        private readonly List<List<int>> _orderOfExecution = new List<List<int>>() {
-            new List<int> { 0, 1, 2},
-            new List<int> { 0, 1, 2},
-            new List<int> { 1, 0, 2},
-            new List<int> { 1, 2, 0},
-            new List<int> { 2, 0, 1},
-            new List<int> { 2, 1, 0},
-        };
+        private List<List<int>> _orderOfExecution;
+        private readonly OrderOfExecutionInitializer _orderOfExecutionInitializer;
 
 
         /// <summary>
@@ -36,6 +29,7 @@ namespace WordBrainSolver.Core.Algorithm
             _dictionaryRepository = dictionaryRepository;// ?? throw new ArgumentNullException(nameof(dictionaryCoordinator));
             _wordFinderForLocation = wordFinderForLocation;
             _removeWordFromBoard = removeWordFromBoard;
+            _orderOfExecutionInitializer = new OrderOfExecutionInitializer(this);
         }
 
         /// <summary>
@@ -47,6 +41,9 @@ namespace WordBrainSolver.Core.Algorithm
             {
                 throw new WordBrainSolverException("Invalid Input");
             };
+
+            _orderOfExecution = _orderOfExecutionInitializer.InitializeOrderOfExecution(wordLengths.Length);
+
             _wordDictionaries = _dictionaryRepository.RetrieveFullDictionary();
             char[,] board = InitializeBoard(inputBoard);
             var results = new List<string>();
@@ -73,7 +70,7 @@ namespace WordBrainSolver.Core.Algorithm
             //For each one found, search for remaining words after removing the found words from the board
             foreach (WordUnderInvestigation word in foundWords)
             {
-                string previousWordWithCurrentWord = string.IsNullOrWhiteSpace(previouslyFoundWords) ? word.GetWord() : string.Concat(previouslyFoundWords, ", " , word.GetWord());
+                string previousWordWithCurrentWord = string.IsNullOrWhiteSpace(previouslyFoundWords) ? word.GetWord() : string.Concat(previouslyFoundWords, ", ", word.GetWord());
                 // If there are no more words to search for then return the result
                 if (orderOfExecution == wordLengths.Count - 1)
                 {
@@ -121,7 +118,7 @@ namespace WordBrainSolver.Core.Algorithm
 
         private char[,] InitializeBoard(string inputBoard)
         {
-            int gridSize =Convert.ToInt32(Math.Sqrt((double) inputBoard.Length));
+            int gridSize = Convert.ToInt32(Math.Sqrt((double)inputBoard.Length));
 
             char[,] outputBoard = new char[gridSize, gridSize];
 

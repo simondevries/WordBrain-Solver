@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 interface IGridInputPageProps {
-    setShowResultsFunction,
-    setIsLoadingFunction,
-    setErrorMessageFunction,
-    setFoundWordsFunction
+    setShowResultsFunction;
+    setIsLoadingFunction;
+    setErrorMessageFunction;
+    setFoundWordsFunction;
 };
 
 interface IGridInputPageState {
@@ -17,9 +17,7 @@ interface IGridInputPageState {
 export class GridInputPage extends React.Component<IGridInputPageProps, IGridInputPageState> {
     constructor() {
         super();
-
-
-        var size = '3';
+        var size = 3;
         var array = this.makeArray(size, size, '');
 
         this.state = {
@@ -27,14 +25,10 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
             wordLengths: [''],
             result: array,
             inputErrorMessage: ''
-        }
+        };
         this.setState({ result: array });
     }
-    //state gridSize
-    //wordLength
-    //errormessage
 
-    // React components are simple functions that take in props and state, and render HTML
     render() {
         return (
             <div>{/* React components must have a wrapper node/element */}
@@ -56,7 +50,7 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
                         this.state.result.map((res, index) => (
                             <li>
                                 {res.map((resTwo, indexTwo) => (
-                                    <input className='grid-input-field number-input-field' onChange={(event) => this.setResult(index, indexTwo, event)} maxLength={1} />
+                                    <input id={index + '' + indexTwo} className='grid-input-field number-input-field' onChange={(event) => this.setResult(index, indexTwo, event)} maxLength={1} />
                                 ))}
                             </li>
                         ))
@@ -70,12 +64,12 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
         );
     }
 
-    setGridSize(event) {
+    setGridSize(event: any) {
         if (event.target.value > 5) {
-            this.setState({ inputErrorMessage: 'You cannot set a grid size greater than 5' })
+            this.setState({ inputErrorMessage: 'You cannot set a grid size greater than 5' });
             return;
         } else {
-            this.setState({ inputErrorMessage: '' })
+            this.setState({ inputErrorMessage: '' });
         }
 
         this.setState({ gridSize: event.target.value });
@@ -83,7 +77,7 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
     }
 
 
-    setWordLengths(event, index) {
+    setWordLengths(event: any, index: number) {
         var wordLengths = this.state.wordLengths;
         if (index === wordLengths.length - 1) {
             wordLengths.push('');
@@ -92,7 +86,7 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
         this.setState({ wordLengths: wordLengths });
     }
 
-    makeArray(w, h, val) {
+    makeArray(w: number, h: number, val: string) {
         var arr = [];
         for (var i = 0; i < h; i++) {
             arr[i] = [];
@@ -113,10 +107,24 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
         return output;
     }
 
-    setResult(indexOne, indexTwo, event) {
+    setResult(indexOne: number, indexTwo: number, event: any) {
         var updatedResult = this.state.result;
         updatedResult[indexOne][indexTwo] = event.target.value;
         this.setState({ result: updatedResult });
+
+        this.moveGridInputCursorToNextInputBox(indexOne, indexTwo);
+    }
+
+    moveGridInputCursorToNextInputBox(indexOne: number, indexTwo: number) {
+        var nextLocationIndex = indexOne + '' + (indexTwo + 1);
+        if (nextLocationIndex[1] >= this.state.gridSize) {
+            if ((indexOne + 1) < this.state.gridSize) {
+                nextLocationIndex = (indexOne + 1) + '' +  0;
+            }
+        }
+
+        var nextInput = document.getElementById(nextLocationIndex);
+        nextInput.focus();
     }
 
     getResults() {
@@ -125,7 +133,8 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
         this.props.setShowResultsFunction(false);
         var array = this.state.wordLengths.slice(0);
         array.pop();
-        return fetch('https://wordbrainspuzzlesolver.azurewebsites.net/api/FindWords', {
+        // return fetch('http://localhost:8080/api/findWords', {
+       return fetch('https://wordbrainspuzzlesolver.azurewebsites.net/api/FindWords', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -135,7 +144,7 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
                 WordLength: array,
                 Board: this.resultString(),
             })
-        }).then(function (response) {
+        }).then(function (response: any) {
             response.json().then(response => {
                 if (!!response.ExceptionMessage) {
                     self.props.setErrorMessageFunction('Somethings went wrong :( \n ' + response.ExceptionMessage);
@@ -149,6 +158,6 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
             self.props.setErrorMessageFunction('something went wrong :(');
             self.props.setIsLoadingFunction(false);
             self.props.setShowResultsFunction(true);
-        })
+        });
     }
 }

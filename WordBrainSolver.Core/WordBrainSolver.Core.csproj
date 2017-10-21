@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\BasicPrimaryWordSearcher.cs" />
+    <Compile Include="Algorithm\OrderOfExecutionInitializer.cs" />
     <Compile Include="GameInputValidator.cs" />
     <Compile Include="Interfaces\IRemoveWordFromBoard.cs" />
     <Compile Include="Algorithm\RemoveWordFromBoard.cs" />

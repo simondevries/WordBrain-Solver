@@ -6,6 +6,6 @@ namespace WordBrainSolver.Tests
     {
         public int[] Lives { get; set; }
         public string Board { get; set; }
-        public int ExpectedResults { get; set; }
+        public int MinimumResultsExpected { get; set; }
     }
 }

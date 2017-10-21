@@ -9,21 +9,21 @@ import { LoadingPage } from './states/loadingPage';
 interface IHomePageProps { };
 
 interface IHomePageState {
-  errorMessage,
-  foundWords,
-  showResult,
-  isLoading,
+  errorMessage;
+  foundWords;
+  showResult;
+  isLoading;
 };
 
 export class HomePage extends React.Component<IHomePageProps, IHomePageState> {
   constructor() {
-    super()
+    super();
     this.state = {
       errorMessage: '',
-      foundWords: '',
+      foundWords: [],
       showResult: false,
       isLoading: false
-    }
+    };
 
     this.setErrorMessage = this.setErrorMessage.bind(this);
     this.setIsLoading = this.setIsLoading.bind(this);
@@ -38,41 +38,42 @@ export class HomePage extends React.Component<IHomePageProps, IHomePageState> {
         <h1>Word brain puzzle solver</h1>
         <div className={!this.state.showResult && !this.state.isLoading ? 'page' : 'hidden'}>
           <GridInputPage
-            setErrorMessageFunction={this.setErrorMessage} 
-            setFoundWordsFunction={this.setFoundWords} 
-            setShowResultsFunction={this.setShowResults} 
+            setErrorMessageFunction={this.setErrorMessage}
+            setFoundWordsFunction={this.setFoundWords}
+            setShowResultsFunction={this.setShowResults}
             setIsLoadingFunction={this.setIsLoading} />
         </div>
         <div className={this.state.isLoading ? 'loading page' : 'hidden loading'}>
           <LoadingPage />
         </div>
         <div className={this.state.showResult && !this.state.isLoading ? 'page' : 'hidden'}>
-          <GameResultsPage 
-            errorMessage={this.state.errorMessage} 
-            foundWords={this.state.foundWords} 
+          <GameResultsPage
+            errorMessage={this.state.errorMessage}
+            foundWords={this.state.foundWords}
             resetFunction={this.reset} />
         </div>
       </div>
     );
   }
 
-  setIsLoading(value) {
+  setIsLoading(value: string) {
     this.setState({ isLoading: value });
   }
 
-  setShowResults(value) {
+  setShowResults(value: string) {
     this.setState({ showResult: value });
   }
 
-  setErrorMessage(value) {
-    this.setState({ errorMessage: value })
+  setErrorMessage(value: number) {
+    this.setState({ errorMessage: value });
   }
 
   reset() {
+    this.setFoundWords([]);
     this.setState({ showResult: false });
   }
 
-  setFoundWords(value){
-    this.setState({ foundWords: value })
+  setFoundWords(value: string[]) {
+    this.setState({ foundWords: value });
   }
 }

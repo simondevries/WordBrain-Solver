@@ -28,15 +28,12 @@ namespace WordBrainSolver.API.Controllers
 
         // GET api/<controller>/5
         [System.Web.Http.HttpPost]
-        public string Post(FindWordsRequestDto findWordsRequestDto)
+        public List<string> Post(FindWordsRequestDto findWordsRequestDto)
         {
             if (findWordsRequestDto.Board == null) throw new Exception("findWordsRequestDto is null");
             if (findWordsRequestDto.WordLength == null) throw new Exception("WordLength is null");
 
-            List<string> list = _solutionGeneratorCoordinator.GenerateGameSolutions(findWordsRequestDto.WordLength, findWordsRequestDto.Board);
-
-            string aggregate = list.Aggregate("", (c, s) => s + "   ~ ~ ~   " + c);
-            return aggregate;
+            return _solutionGeneratorCoordinator.GenerateGameSolutions(findWordsRequestDto.WordLength, findWordsRequestDto.Board);
         }
     }
 }

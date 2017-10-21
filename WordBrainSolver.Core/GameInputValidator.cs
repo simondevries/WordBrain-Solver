@@ -11,8 +11,15 @@ namespace WordBrainSolver.Core
             int result;
             bool isInteger = int.TryParse(Math.Sqrt(inputBoard.Length).ToString(CultureInfo.InvariantCulture), out result);
             int totalLookupWordLength = lookupWordLength.Sum();
+            bool hasAcceptableLookupWordLength = lookupWordLength.Length == 3 || lookupWordLength.Length == 4;
 
-            return lookupWordLength.Length != 0 && inputBoard.Length != 0 && lookupWordLength.Length < inputBoard.Length && isInteger && totalLookupWordLength == inputBoard.Length;
+            return
+                lookupWordLength.Length != 0 &&
+                inputBoard.Length != 0 &&
+                lookupWordLength.Length < inputBoard.Length &&
+                isInteger &&
+                totalLookupWordLength == inputBoard.Length &&
+                hasAcceptableLookupWordLength;
         }
     }
 }
