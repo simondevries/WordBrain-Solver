@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using WordBrainSolver.Core.Interfaces;
 using WordBrainSolver.Core.Models;
@@ -15,12 +16,10 @@ namespace WordBrainSolver.Core.Algorithm
         /// <summary>
         /// Constructor
         /// </summary>
-        public WordFinderForLocation(ISubDictionaryGenerator subDictionaryCoordinator,
-            IBasicPrimaryWordSearcher basicPrimaryWordSearcher)
+        public WordFinderForLocation(ISubDictionaryGenerator subDictionaryCoordinator, IBasicPrimaryWordSearcher basicPrimaryWordSearcher)
         {
-            _subDictionaryCoordinator = subDictionaryCoordinator;
-            // ?? throw new ArgumentNullException(nameof(dictionaryCoordinator));
-            _basicPrimaryWordSearcher = basicPrimaryWordSearcher;
+            _subDictionaryCoordinator = subDictionaryCoordinator ?? throw new ArgumentNullException(nameof(subDictionaryCoordinator));
+            _basicPrimaryWordSearcher = basicPrimaryWordSearcher ?? throw new ArgumentNullException(nameof(basicPrimaryWordSearcher));
         }
 
         /// <summary>

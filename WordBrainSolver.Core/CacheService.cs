@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.Caching;
+using Microsoft.Extensions.Caching.Memory;
 using WordBrainSolver.Core.Interfaces;
 using WordBrainSolver.Core.Models;
 
@@ -10,16 +10,16 @@ namespace WordBrainSolver.Core
     /// </summary>
     public class WordDictionariesCacheService : IWordDictionariesCacheService
     {
-        private readonly MemoryCache _memoryCache;
-        private const int CACHEEXPIRYTIME = 10;
-        private const string CACHENAME = "FullDictionary";
+        private readonly IMemoryCache _memoryCache;
+        private const int CacheExpiryTime = 10;
+        private const string CacheName = "FullDictionary";
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public WordDictionariesCacheService()
+        public WordDictionariesCacheService(IMemoryCache memoryCache)
         {
-            _memoryCache = MemoryCache.Default;
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
         /// <summary>
@@ -27,9 +27,9 @@ namespace WordBrainSolver.Core
         /// </summary>
         public void SaveInCache(WordDictionaries fullDictionary)
         {
-            var expiration = DateTimeOffset.UtcNow.AddHours(CACHEEXPIRYTIME);
+            var expiration = DateTimeOffset.UtcNow.AddHours(CacheExpiryTime);
 
-            _memoryCache.Add(CACHENAME, fullDictionary, expiration);
+            _memoryCache.Set(CacheName, fullDictionary, expiration);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace WordBrainSolver.Core
         /// <returns></returns>
         public bool HasBeenPrimed()
         {
-            return _memoryCache.Contains(CACHENAME);
+            return _memoryCache.TryGetValue(CacheName, out WordDictionaries _);
         }
 
         /// <summary>
@@ -47,9 +47,9 @@ namespace WordBrainSolver.Core
         /// <returns></returns>
         public WordDictionaries RetrieveFromCache()
         {
-            if (_memoryCache.Contains(CACHENAME))
+            if (_memoryCache.TryGetValue(CacheName, out WordDictionaries dictionaries))
             {
-                return (WordDictionaries)_memoryCache.Get(CACHENAME);
+                return dictionaries;
             }
 
             return null;
