@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using WordBrainSolver.Core.Models;
+﻿using WordBrainSolver.Core.Models;
 
 namespace WordBrainSolver.Core.Interfaces
 {

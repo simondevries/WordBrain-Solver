@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using FluentAssertions;
 using WordBrainSolver.Core.Algorithm;
-using System.Runtime.Serialization.Formatters.Binary;
 using WordBrainSolver.Core.Tests.Builders;
 using Xunit;
 
