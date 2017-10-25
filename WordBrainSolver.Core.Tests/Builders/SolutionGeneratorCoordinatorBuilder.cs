@@ -1,4 +1,5 @@
-﻿using WordBrainSolver.Core.Algorithm;
+﻿using Microsoft.Extensions.Caching.Memory;
+using WordBrainSolver.Core.Algorithm;
 using WordBrainSolver.Core.Dictionary;
 using WordBrainSolver.Core.Interfaces;
 
@@ -13,7 +14,8 @@ namespace WordBrainSolver.Core.Tests.Builders
         public SolutionGeneratorCoordinatorBuilder()
         {
             _removeWordFromBoard = new RemoveWordFromBoard();
-            _dictionaryRepository = new DictionaryRepository(ConnectionStrings.AzureConnectionString, new WordDictionariesCacheService());
+            IMemoryCache memoryCache = new MemoryCache(new MemoryCacheOptions());
+            _dictionaryRepository = new DictionaryRepository(ConnectionStrings.AzureConnectionString, new WordDictionariesCacheService(memoryCache));
             _wordFinderForLocation = new WordFinderForLocation(new SubDictionaryGenerator(Settings.BruteForceSearchLimit), new BasicPrimaryWordSearcherBuilder().Build());
         }
 

@@ -1,4 +1,5 @@
-﻿using WordBrainSolver.Core.Dictionary;
+﻿using Microsoft.Extensions.Caching.Memory;
+using WordBrainSolver.Core.Dictionary;
 using WordBrainSolver.Core.Interfaces;
 
 namespace WordBrainSolver.Core.Tests.Builders
@@ -10,7 +11,7 @@ namespace WordBrainSolver.Core.Tests.Builders
 
         public DictionaryRepositoryBuilder()
         {
-            _wordDictionariesCacheService = new WordDictionariesCacheService();
+            _wordDictionariesCacheService = new WordDictionariesCacheService(new MemoryCache(new MemoryCacheOptions()));
         }
 
         public DictionaryRepositoryBuilder With(IWordDictionariesCacheService wordDictionariesCacheService)
