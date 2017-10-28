@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordBrainSolver.Core", "WordBrainSolver.Core\WordBrainSolver.Core.csproj", "{BF17E902-911B-4988-86D1-375F4A461395}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordBrainSolver.Api", "WordBrainSolver.Api\WordBrainSolver.Api.csproj", "{CBF17F0F-6A5E-4B68-B881-2371E717F99B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordBrainSolver.Core.Tests", "WordBrainSolver.Core.Tests\WordBrainSolver.Core.Tests.csproj", "{4CA518F6-911A-4798-8848-6AB19083236B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		web.config|Any CPU = web.config|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF17E902-911B-4988-86D1-375F4A461395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF17E902-911B-4988-86D1-375F4A461395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF17E902-911B-4988-86D1-375F4A461395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF17E902-911B-4988-86D1-375F4A461395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF17E902-911B-4988-86D1-375F4A461395}.web.config|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF17E902-911B-4988-86D1-375F4A461395}.web.config|Any CPU.Build.0 = Debug|Any CPU
+		{CBF17F0F-6A5E-4B68-B881-2371E717F99B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBF17F0F-6A5E-4B68-B881-2371E717F99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBF17F0F-6A5E-4B68-B881-2371E717F99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBF17F0F-6A5E-4B68-B881-2371E717F99B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBF17F0F-6A5E-4B68-B881-2371E717F99B}.web.config|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBF17F0F-6A5E-4B68-B881-2371E717F99B}.web.config|Any CPU.Build.0 = Debug|Any CPU
+		{4CA518F6-911A-4798-8848-6AB19083236B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CA518F6-911A-4798-8848-6AB19083236B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CA518F6-911A-4798-8848-6AB19083236B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CA518F6-911A-4798-8848-6AB19083236B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CA518F6-911A-4798-8848-6AB19083236B}.web.config|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CA518F6-911A-4798-8848-6AB19083236B}.web.config|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0AD3AB81-B5B0-451A-A944-67FA2613C9AD}
+	EndGlobalSection
+EndGlobal
