@@ -35,13 +35,17 @@ namespace WordBrainSolver.Core.Algorithm
                 return;
             }
 
-            //Case 2 - Has been visited
+            //Case 2- Position doesn't contain a value
+            if (board[x, y] == '*') return;
+
+            //Case 3 - Has been visited
             bool hasBeenVisited = visitedPoints.Any(point => point.HasValue(x, y));
             if (hasBeenVisited) return;
 
+            //this may not be needed
             wordUnderInvestigation.AddCharacter(board[x, y], new Point(x, y));
 
-            //Case 3 - No possible word
+            //Case 4 - No possible word
             if (wordUnderInvestigation.HasLength(_bruteForceSearchLimit))
             {
                 // If it is not in the sub dictionary then there is no need to continue
@@ -52,7 +56,7 @@ namespace WordBrainSolver.Core.Algorithm
 
             visitedPoints.Add(new Point(x, y));
 
-            //Case 4 - Ran out of lives
+            //Case 5 - Ran out of lives
             if (lives == 1)
             {
                 foundWords.Add(wordUnderInvestigation);

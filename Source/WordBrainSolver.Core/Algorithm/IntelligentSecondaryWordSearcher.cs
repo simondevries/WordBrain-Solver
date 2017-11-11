@@ -36,10 +36,8 @@ namespace WordBrainSolver.Core.Algorithm
             {
                 foreach (string possibleWord in subDictionary[wordUnderInvestigation.GetWord()])
                 {
-                    //Not sure if this deep clone is required but ill just be safe
-                    List<Point> visitedLocations = Clone.DeepClone(visitedPoints);
-                    WordUnderInvestigation wordToCheck = new WordUnderInvestigation(possibleWord, visitedLocations, _bruteForceSearchLimit - 1);
-                    Search(wordToCheck, visitedLocations, board, x, y, foundWords);
+                    WordUnderInvestigation wordToCheck = new WordUnderInvestigation(possibleWord, visitedPoints, _bruteForceSearchLimit - 1);
+                    Search(wordToCheck, visitedPoints, board, x, y, foundWords);
                 }
             }
         }
@@ -58,6 +56,9 @@ namespace WordBrainSolver.Core.Algorithm
                 return;
             }
 
+            //Case 2- Position doesn't contain a value
+            if (board[x, y] == '*') return;
+
             //Case 2-Already visited
             bool hasBeenVisited = visitedPoints.Any(point => point.HasValue(x, y));
             if (hasBeenVisited) return;
@@ -68,49 +69,33 @@ namespace WordBrainSolver.Core.Algorithm
                 return;
             }
 
-
             //Case 4- Success! No letters left in possible word
             if (possibleWord.IsCurrentSearchIndexAtEndOfWord())
             {
-                possibleWord.AddVisitedLocationAtCurrentSearchPosition(new Point(x, y), board[x, y]); // NB: Must occur before increment index
+                visitedPoints.Add(new Point(x, y));
+                possibleWord.SetVisitedPoints(visitedPoints.ToArray()); // NB: Must occur before increment index
                 foundWords.Add(possibleWord);
+                visitedPoints.RemoveAt(visitedPoints.Count - 1);
                 return;
             }
 
-
-
             visitedPoints.Add(new Point(x, y));
             possibleWord.AddVisitedLocationAtCurrentSearchPosition(new Point(x, y), board[x, y]); // NB: Must occur before increment index
-            //            possibleWord.AddVisitedLocationAtCurrentSearchPosition(new Point(x, y), board[x, y]); // NB: Must occur before increment index
             possibleWord.IncrementCurrentSearchIndex();
             SmartFindSurroundingWords(possibleWord, visitedPoints, board, x, y, foundWords);
+            visitedPoints.RemoveAt(visitedPoints.Count - 1);
         }
 
         private void SmartFindSurroundingWords(WordUnderInvestigation possibleWord, List<Point> visitedPoints, char[,] board, int x, int y, List<WordUnderInvestigation> foundWords)
         {
-            List<Point> clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x - 1, y - 1, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x, y - 1, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x + 1, y - 1, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x - 1, y, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x + 1, y, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x - 1, y + 1, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x, y + 1, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x + 1, y + 1, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), visitedPoints, board, x - 1, y - 1, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), visitedPoints, board, x, y - 1, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), visitedPoints, board, x + 1, y - 1, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), visitedPoints, board, x - 1, y, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), visitedPoints, board, x + 1, y, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), visitedPoints, board, x - 1, y + 1, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), visitedPoints, board, x, y + 1, foundWords);
+            Search(new WordUnderInvestigation(possibleWord), visitedPoints, board, x + 1, y + 1, foundWords);
         }
     }
 }

@@ -98,6 +98,15 @@ namespace WordBrainSolver.Core.Models
             }
         }
 
+        /// <summary>
+        /// Adds a visited location at the current search index. Checks that the expected char at that index is what is passed in
+        /// </summary>
+        public void SetVisitedPoints(Point[] points)
+        {
+            _positionOfLettersInWord = points;
+        }
+
+
         public void AddCharacter(char character, Point point)
         {
             _word += character;
