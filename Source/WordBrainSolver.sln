@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordBrainSolver.Core", "WordBrainSolver.Core\WordBrainSolver.Core.csproj", "{BF17E902-911B-4988-86D1-375F4A461395}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordBrainSolver.Core", "WordBrainSolver.Core\WordBrainSolver.Core.csproj", "{BF17E902-911B-4988-86D1-375F4A461395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordBrainSolver.Api", "WordBrainSolver.Api\WordBrainSolver.Api.csproj", "{CBF17F0F-6A5E-4B68-B881-2371E717F99B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordBrainSolver.Api", "WordBrainSolver.Api\WordBrainSolver.Api.csproj", "{CBF17F0F-6A5E-4B68-B881-2371E717F99B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordBrainSolver.Core.Tests", "WordBrainSolver.Core.Tests\WordBrainSolver.Core.Tests.csproj", "{4CA518F6-911A-4798-8848-6AB19083236B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordBrainSolver.Core.Tests", "WordBrainSolver.Core.Tests\WordBrainSolver.Core.Tests.csproj", "{4CA518F6-911A-4798-8848-6AB19083236B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

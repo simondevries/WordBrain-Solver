@@ -28,27 +28,27 @@ namespace WordBrainSolver.Core.Algorithm
         /// </summary>
         public void Search(List<Point> visitedPoints, int lives, int x, int y, WordUnderInvestigation wordUnderInvestigation, char[,] board, List<WordUnderInvestigation> foundWords, Dictionary<string, IEnumerable<string>> subDictionary)
         {
-            //Case 1- Goes off grid
+            // Base Case 1- Goes off grid
             int boardLength = board.GetLength(0);
             if (x >= boardLength || x < 0 || y >= boardLength || y < 0)
             {
                 return;
             }
 
-            //Case 2- Position doesn't contain a value
+            // Base Case 2- Position doesn't contain a value
             if (board[x, y] == '*')
             {
                 return;
             }
 
-            //Case 3 - Has been visited
+            // Base Case 3 - Has been visited
             bool hasBeenVisited = visitedPoints.Any(point => point.HasValue(x, y));
             if (hasBeenVisited) return;
 
             //this may not be needed
             wordUnderInvestigation.AddCharacter(board[x, y], new Point(x, y));
 
-            //Case 4 - No possible word
+            // Base Case 4 - No possible word
             if (wordUnderInvestigation.HasLength(_bruteForceSearchLimit))
             {
                 // If it is not in the sub dictionary then there is no need to continue

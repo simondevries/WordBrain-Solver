@@ -65,7 +65,7 @@ namespace WordBrainSolver.Tests
 
             _testResultsSaver.SaveResults(stopwatch.ElapsedMilliseconds.ToString(), testCase, results);
 
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            System.Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
     }
 }

@@ -46,7 +46,6 @@ namespace WordBrainSolver.Core.Tests
 
             foundwords.Count.Should().Be(1);
             foundwords.First().GetWord().Should().Be("senna");
-            foundwords.First().GetCurrentSearchIndex().Should().Be(4);
             Assert.True(foundwords.First().GetVisitedLocations()[0].HasValue(0, 1));
             Assert.True(foundwords.First().GetVisitedLocations()[1].HasValue(1, 0));
             Assert.True(foundwords.First().GetVisitedLocations()[2].HasValue(2, 1));
