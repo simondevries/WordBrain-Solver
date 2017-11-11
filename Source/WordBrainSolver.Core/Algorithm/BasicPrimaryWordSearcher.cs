@@ -36,7 +36,10 @@ namespace WordBrainSolver.Core.Algorithm
             }
 
             //Case 2- Position doesn't contain a value
-            if (board[x, y] == '*') return;
+            if (board[x, y] == '*')
+            {
+                return;
+            }
 
             //Case 3 - Has been visited
             bool hasBeenVisited = visitedPoints.Any(point => point.HasValue(x, y));
