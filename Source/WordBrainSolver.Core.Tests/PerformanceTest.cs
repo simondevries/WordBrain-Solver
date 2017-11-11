@@ -4,10 +4,11 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using FluentAssertions;
 using WordBrainSolver.Core.Algorithm;
+using WordBrainSolver.Core.Tests;
 using WordBrainSolver.Core.Tests.Builders;
 using Xunit;
 
-namespace WordBrainSolver.Core.Tests
+namespace WordBrainSolver.Tests
 {
     public class PerformanceTest
     {
@@ -20,15 +21,21 @@ namespace WordBrainSolver.Core.Tests
         }
 
         [Fact]
-        public async Task PerformanceTestOne()
+        public async void PerformanceTestOne()
         {
-            //todo For the expected results, I cannot confirm that the value entered is actually the number of solutions of a puzzle.
             List<TestCase> testCases = new List<TestCase>
             {
-                new TestCase {Board = "webtrsaicnibstwr", Lives = new[] {5, 5, 6}, ExpectedResults = 3},
-                // Sheep Level 6
-                new TestCase {Board = "lhmbaaoeimodrear", Lives = new [] {7, 3, 6}, ExpectedResults = 4},
-                new TestCase {Board = "ysonelnnhncaolab", Lives = new [] {5, 5, 6}, ExpectedResults = 1}
+                new TestCase {Board = "ysonelnnhncaolab", Lives = new [] {5, 5, 6}},
+                new TestCase {Board = "bruoulerltnnleoi", Lives = new[] {5, 6, 5}},
+                new TestCase {Board = "beomalpblaaotthr", Lives = new[] {5, 8, 3}},
+                new TestCase {Board = "esngeeeihpyrctok", Lives = new[] {6, 3, 7}},
+                new TestCase {Board = "btenitelknzzarup", Lives = new[] {6, 6, 4}},
+                new TestCase {Board = "kltnccaolooobvob", Lives = new[] {5, 7, 4}},
+                new TestCase {Board = "tdttoeiconnebims", Lives = new[] {4, 5, 7}},
+                new TestCase {Board = "lhmbaaoeimodrear", Lives = new [] {7, 3, 6}},
+                new TestCase {Board = "batmatcat", Lives = new[] {3,3,3}},
+                new TestCase {Board = "ewcuopisclmeatkl", Lives = new [] {3, 3, 5, 5}},
+                new TestCase {Board = "kekmonlrbsuldahcdaoekperd", Lives = new[] {5, 6, 7, 7}}
             };
 
             foreach (TestCase testCase in testCases)
@@ -42,40 +49,23 @@ namespace WordBrainSolver.Core.Tests
             SolutionGeneratorCoordinator solverSolutionGeneratorCoordinatorCoordinator =
                 new SolutionGeneratorCoordinatorBuilder().Build();
 
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
             List<string> results = await solverSolutionGeneratorCoordinatorCoordinator.GenerateGameSolutions(testCase.Lives,
                 testCase.Board);
 
-            results.Count.Should().Be(testCase.ExpectedResults);
+            results.Count.Should().BeGreaterOrEqualTo(1);
 
-            stopwatch.Stop();
 
             _testResultsSaver = new TestResultsSaver();
+
+            stopwatch.Stop();
 
             _testResultsSaver.SaveResults(stopwatch.ElapsedMilliseconds.ToString(), testCase, results);
 
             Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
-
-        /*  [Fact]
-            public void bar()
-            {
-                foo(string.Empty, 0, new[] { 0 }, new Box() { Size = 0 });
-            }
-
-            public void foo(string hello, int helloNumber, int[] helloArray, Box box)
-            {
-                if (helloNumber == 10) return;
-                box.Size++;
-                foo(hello + ".", helloNumber + 1, helloArray.Concat(new[] { 2 }).ToArray(), box);
-            }
-
-            public class Box
-            {
-                public int Size { get; set; }
-            }
-        */
     }
 }
