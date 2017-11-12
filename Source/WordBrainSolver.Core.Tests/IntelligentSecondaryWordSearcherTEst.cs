@@ -13,9 +13,9 @@ namespace WordBrainSolver.Core.Tests
 {
     public class IntelligentSecondaryWordSearcherTest
     {
-        private IntelligentSecondaryWordSearcher _intelligentSecondaryWordSearcher;
-        private SubDictionaryGenerator _subDictionaryGenerator;
-        private IDictionaryRepository _dictionaryRepository;
+        private readonly IntelligentSecondaryWordSearcher _intelligentSecondaryWordSearcher;
+        private readonly SubDictionaryGenerator _subDictionaryGenerator;
+        private readonly IDictionaryRepository _dictionaryRepository;
 
 
         public IntelligentSecondaryWordSearcherTest()
@@ -28,7 +28,7 @@ namespace WordBrainSolver.Core.Tests
         [Fact]
         public async void CanFindResults()
         {
-            List<Point> visitedPoints = new List<Point>() { new Point(0, 0), new Point(1, 0) };
+            List<Point> visitedPoints = new List<Point>() { new Point(0, 1), new Point(1, 0) };
             int startX = 2;
             int startY = 1;
 
@@ -46,6 +46,14 @@ namespace WordBrainSolver.Core.Tests
 
             foundwords.Count.Should().Be(1);
             foundwords.First().GetWord().Should().Be("senna");
+            Assert.True(foundwords.First().GetVisitedLocations()[0].HasValue(0, 1));
+            Assert.True(foundwords.First().GetVisitedLocations()[1].HasValue(1, 0));
+            Assert.True(foundwords.First().GetVisitedLocations()[2].HasValue(2, 1));
+            Assert.True(foundwords.First().GetVisitedLocations()[3].HasValue(1, 2));
+            Assert.True(foundwords.First().GetVisitedLocations()[4].HasValue(2, 3));
+            visitedPoints.Count.Should().Be(2);
+            visitedPoints[0].HasValue(0, 1);
+            visitedPoints[1].HasValue(1, 0);
         }
     }
 }

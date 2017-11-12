@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WordBrainSolver.Core.Interfaces;
 using WordBrainSolver.Core.Models;
@@ -11,6 +12,17 @@ namespace WordBrainSolver.Core.Algorithm
     public class IntelligentSecondaryWordSearcher : IIntelligentSecondaryWordSearcher
     {
         private readonly int _bruteForceSearchLimit;
+        private static readonly IEnumerable<Point> NeighbouringPoints = new List<Point>
+        {
+            new Point(- 1, - 1),
+            new Point(0, - 1),
+            new Point(+ 1, - 1),
+            new Point(- 1, 0),
+            new Point(+ 1, 0),
+            new Point(- 1, + 1),
+            new Point(0, + 1),
+            new Point(+ 1, + 1),
+        };
 
         /// <summary>
         /// Constructor
@@ -24,7 +36,8 @@ namespace WordBrainSolver.Core.Algorithm
         /// Initiates the search.
         /// Runs search on all words that start with the same three characters
         /// </summary>
-        public void InitiateSearch(List<Point> visitedPoints, int x, int y, WordUnderInvestigation wordUnderInvestigation, char[,] board,
+        public void InitiateSearch(List<Point> visitedPoints, int x, int y,
+            WordUnderInvestigation wordUnderInvestigation, char[,] board,
             List<WordUnderInvestigation> foundWords, Dictionary<string, IEnumerable<string>> subDictionary)
         {
             if (!wordUnderInvestigation.HasLength(_bruteForceSearchLimit))
@@ -34,83 +47,60 @@ namespace WordBrainSolver.Core.Algorithm
 
             if (subDictionary.ContainsKey(wordUnderInvestigation.GetWord()))
             {
-                foreach (string possibleWord in subDictionary[wordUnderInvestigation.GetWord()])
-                {
-                    //Not sure if this deep clone is required but ill just be safe
-                    List<Point> visitedLocations = Clone.DeepClone(visitedPoints);
-                    WordUnderInvestigation wordToCheck = new WordUnderInvestigation(possibleWord, visitedLocations, _bruteForceSearchLimit - 1);
-                    Search(wordToCheck, visitedLocations, board, x, y, foundWords);
-                }
+                int lengthOfWordBeingSearched = subDictionary[wordUnderInvestigation.GetWord()].First().Length;
+                Search(subDictionary[wordUnderInvestigation.GetWord()].ToList(), visitedPoints, board, x, y, foundWords, _bruteForceSearchLimit - 1, lengthOfWordBeingSearched);
             }
         }
 
         /// <summary>
         /// Searches for words.
-        /// Given an initial set of letters of length bruteForceSearchLimit, it is able to use a sub dictionary to check neighbouring tiles
-        /// and identify if it is possible for make a word.
+        /// Given a list of words to find, it searches neighbours from the current position and removed items from the list which can't work.
+        /// For each possible word left it will repeat the method until it the word doesn't exist or it has been found on the board
         /// </summary>
-        public void Search(WordUnderInvestigation possibleWord, List<Point> visitedPoints, char[,] board, int x, int y, List<WordUnderInvestigation> foundWords)
+        public void Search(IEnumerable<string> possibleWords, List<Point> visitedPoints, char[,] board, int x, int y, List<WordUnderInvestigation> foundWords, int currentIndex, int lengthOfWordBeingSearched)
         {
-            //Case 1- goes off grid
-            int boardLength = board.GetLength(0);
-            if (x >= boardLength || x < 0 || y >= boardLength || y < 0)
-            {
-                return;
-            }
-
-            //Case 2-Already visited
+            // Base Case 1- Already visited
             bool hasBeenVisited = visitedPoints.Any(point => point.HasValue(x, y));
             if (hasBeenVisited) return;
 
-            //Case 3- not the next char in this word
-            if (board[x, y] != possibleWord.GetCharAtCurrentSearchIndex())
+
+            // Base Case 2- word found
+            if (currentIndex == possibleWords.First().Count() - 1)
             {
+                foreach (string word in possibleWords)
+                {
+                    visitedPoints.Add(new Point(x, y));
+                    WordUnderInvestigation foundWord = new WordUnderInvestigation(word, visitedPoints.ToArray(), 0); //current search index doesn't matter here cuz we found the word
+                    foundWords.Add(foundWord);
+                    visitedPoints.RemoveAt(visitedPoints.Count - 1);
+                }
                 return;
             }
 
 
-            //Case 4- Success! No letters left in possible word
-            if (possibleWord.IsCurrentSearchIndexAtEndOfWord())
+            // Find neighbours that are compadible with the next char in possible words
+            Dictionary<Point, List<string>> placesToCheck = new Dictionary<Point, List<string>>();
+            int boardSize = board.GetLength(0) - 1;
+            foreach (Point neighbouringPoint in NeighbouringPoints)
             {
-                possibleWord.AddVisitedLocationAtCurrentSearchPosition(new Point(x, y), board[x, y]); // NB: Must occur before increment index
-                foundWords.Add(possibleWord);
-                return;
-            }
+                Point transformedPoint = new Point(x + neighbouringPoint.X(), y + neighbouringPoint.Y());
+                if (transformedPoint.X() < 0 || transformedPoint.X() > boardSize || transformedPoint.Y() < 0 || transformedPoint.Y() > boardSize) continue;
 
+                List<string> results = possibleWords.Where(word => board[transformedPoint.X(), transformedPoint.Y()] == word[currentIndex + 1]).ToList();
+                if (results.Any())
+                {
+                    placesToCheck[transformedPoint] = results;
+                }
+            }
 
 
             visitedPoints.Add(new Point(x, y));
-            possibleWord.AddVisitedLocationAtCurrentSearchPosition(new Point(x, y), board[x, y]); // NB: Must occur before increment index
-            //            possibleWord.AddVisitedLocationAtCurrentSearchPosition(new Point(x, y), board[x, y]); // NB: Must occur before increment index
-            possibleWord.IncrementCurrentSearchIndex();
-            SmartFindSurroundingWords(possibleWord, visitedPoints, board, x, y, foundWords);
-        }
-
-        private void SmartFindSurroundingWords(WordUnderInvestigation possibleWord, List<Point> visitedPoints, char[,] board, int x, int y, List<WordUnderInvestigation> foundWords)
-        {
-            List<Point> clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x - 1, y - 1, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x, y - 1, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x + 1, y - 1, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x - 1, y, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x + 1, y, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x - 1, y + 1, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x, y + 1, foundWords);
-
-            clonedVisitedPoints = new List<Point>(visitedPoints);
-            Search(new WordUnderInvestigation(possibleWord), clonedVisitedPoints, board, x + 1, y + 1, foundWords);
+            currentIndex++;
+            foreach (KeyValuePair<Point, List<string>> placeToCheck in placesToCheck)
+            {
+                Search(placeToCheck.Value, visitedPoints, board, placeToCheck.Key.X(), placeToCheck.Key.Y(), foundWords, currentIndex, lengthOfWordBeingSearched);
+            }
+            visitedPoints.RemoveAt(visitedPoints.Count - 1);
         }
     }
 }

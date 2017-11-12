@@ -4,15 +4,13 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using FluentAssertions;
 using WordBrainSolver.Core.Algorithm;
-using WordBrainSolver.Core.Tests;
 using WordBrainSolver.Core.Tests.Builders;
 using Xunit;
 
-namespace WordBrainSolver.Tests
+namespace WordBrainSolver.Core.Tests
 {
     public class PerformanceTest
     {
-
         private TestResultsSaver _testResultsSaver;
 
         public PerformanceTest()
@@ -34,8 +32,8 @@ namespace WordBrainSolver.Tests
                 new TestCase {Board = "tdttoeiconnebims", Lives = new[] {4, 5, 7}},
                 new TestCase {Board = "lhmbaaoeimodrear", Lives = new [] {7, 3, 6}},
                 new TestCase {Board = "batmatcat", Lives = new[] {3,3,3}},
-                new TestCase {Board = "ewcuopisclmeatkl", Lives = new [] {3, 3, 5, 5}},
-                new TestCase {Board = "kekmonlrbsuldahcdaoekperd", Lives = new[] {5, 6, 7, 7}}
+//                new TestCase {Board = "ewcuopisclmeatkl", Lives = new [] {3, 3, 5, 5}},
+//                new TestCase {Board = "kekmonlrbsuldahcdaoekperd", Lives = new[] {5, 6, 7, 7}}
             };
 
             foreach (TestCase testCase in testCases)
@@ -49,7 +47,6 @@ namespace WordBrainSolver.Tests
             SolutionGeneratorCoordinator solverSolutionGeneratorCoordinatorCoordinator =
                 new SolutionGeneratorCoordinatorBuilder().Build();
 
-
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -57,7 +54,6 @@ namespace WordBrainSolver.Tests
                 testCase.Board);
 
             results.Count.Should().BeGreaterOrEqualTo(1);
-
 
             _testResultsSaver = new TestResultsSaver();
 

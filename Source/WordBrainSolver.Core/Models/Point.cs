@@ -28,5 +28,15 @@ namespace WordBrainSolver.Core.Models
         {
             return x == _x && y == _y;
         }
+
+        public override string ToString()
+        {
+            return _x + "," + _y;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return ((Point) obj).X() == X() && ((Point) obj).Y() == Y();
+        }
     }
 }
