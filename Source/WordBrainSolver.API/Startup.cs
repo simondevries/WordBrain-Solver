@@ -24,6 +24,7 @@ namespace WordBrainSolver.Api
         {
             services.AddMemoryCache();
             services.AddMvc();
+            services.AddCors();
 
             int bruteForceSearchLimit = Convert.ToInt32(Configuration.GetSection("BruteForceSearchLimit").Value);
             string storageConnectionString = Configuration.GetSection("StorageConnectionString").Value;
@@ -46,6 +47,7 @@ namespace WordBrainSolver.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseMvc();
         }
     }
