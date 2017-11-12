@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WordBrainSolver.Api.Models;
 using WordBrainSolver.Core.Interfaces;
-using WordBrainSolver.Core.Models;
 
 namespace WordBrainSolver.Api.Controllers
 {
@@ -19,10 +19,12 @@ namespace WordBrainSolver.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(FindWordsRequestDto findWordsRequestDto)
+        public async Task<IActionResult> Post([FromBody]FindWordsRequestDto findWordsRequestDto)
         {
-            if (findWordsRequestDto.Board == null) throw new Exception("findWordsRequestDto is null");
-            if (findWordsRequestDto.WordLength == null) throw new Exception("WordLength is null");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             List<string> list = await _solutionGeneratorCoordinator.GenerateGameSolutions(findWordsRequestDto.WordLength, findWordsRequestDto.Board);
 

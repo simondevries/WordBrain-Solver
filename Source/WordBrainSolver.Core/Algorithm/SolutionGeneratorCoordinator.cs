@@ -17,7 +17,8 @@ namespace WordBrainSolver.Core.Algorithm
         private readonly IRemoveWordFromBoard _removeWordFromBoard;
         private WordDictionaries _wordDictionaries;
 
-        private readonly List<List<int>> _orderOfExecution = new List<List<int>>() {
+        private readonly List<List<int>> _orderOfExecution = new List<List<int>>
+        {
             new List<int> { 0, 1, 2},
             new List<int> { 0, 1, 2},
             new List<int> { 1, 0, 2},

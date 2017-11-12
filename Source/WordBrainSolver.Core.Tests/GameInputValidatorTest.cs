@@ -1,23 +1,29 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Linq;
+using FluentAssertions;
 using Xunit;
 
 namespace WordBrainSolver.Core.Tests
 {
     public class GameInputValidatorTest
     {
-        [Fact]
-        public void TestInput()
+        [Theory]
+        [InlineData("", "9", false)]
+        [InlineData("asda", "9", false)]
+        [InlineData("abcabcabc", "", false)]
+        [InlineData("abcabcabc", "10", false)]
+        [InlineData("abcabcabc", "5,5", false)]
+        [InlineData("asdasdasd", "9", true)]
+        public void IsInputValidShouldValidateInputCorrectly(string board, string wordLength, bool expectedResult)
         {
-            int[] array = { 9 };
-            GameInputValidator.IsInputValid(array, "asdasdasd").Should().BeTrue();
-            GameInputValidator.IsInputValid(array, "").Should().BeFalse();
-            GameInputValidator.IsInputValid(array, "asda").Should().BeFalse();
-            int[] array2 = { };
-            GameInputValidator.IsInputValid(array2, "abcabcabc").Should().BeFalse();
-            int[] array3 = { 10 };
-            GameInputValidator.IsInputValid(array3, "abcabcabc").Should().BeFalse();
-            int[] array4 = { 5, 5 };
-            GameInputValidator.IsInputValid(array4, "abcabcabc").Should().BeFalse();
+            // Arrange
+            int[] wordLengthArray = wordLength.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+
+            // Act
+            bool isInputValid = GameInputValidator.IsInputValid(wordLengthArray, board);
+
+            // Assert
+            isInputValid.Should().Be(expectedResult);
         }
     }
 }
