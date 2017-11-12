@@ -48,15 +48,14 @@ namespace WordBrainSolver.Core.Algorithm
             if (subDictionary.ContainsKey(wordUnderInvestigation.GetWord()))
             {
                 int lengthOfWordBeingSearched = subDictionary[wordUnderInvestigation.GetWord()].First().Length;
-                Search(subDictionary[wordUnderInvestigation.GetWord()].ToList(), visitedPoints, board, x, y, foundWords,
-                    _bruteForceSearchLimit - 1, lengthOfWordBeingSearched); // todo (sdv) can I bump brute fore search limut up
+                Search(subDictionary[wordUnderInvestigation.GetWord()].ToList(), visitedPoints, board, x, y, foundWords, _bruteForceSearchLimit - 1, lengthOfWordBeingSearched);
             }
         }
 
         /// <summary>
         /// Searches for words.
-        /// Given an initial set of letters of length bruteForceSearchLimit, it is able to use a sub dictionary to check neighbouring tiles
-        /// and identify if it is possible for make a word.
+        /// Given a list of words to find, it searches neighbours from the current position and removed items from the list which can't work.
+        /// For each possible word left it will repeat the method until it the word doesn't exist or it has been found on the board
         /// </summary>
         public void Search(IEnumerable<string> possibleWords, List<Point> visitedPoints, char[,] board, int x, int y, List<WordUnderInvestigation> foundWords, int currentIndex, int lengthOfWordBeingSearched)
         {
@@ -103,6 +102,5 @@ namespace WordBrainSolver.Core.Algorithm
             }
             visitedPoints.RemoveAt(visitedPoints.Count - 1);
         }
-
     }
 }

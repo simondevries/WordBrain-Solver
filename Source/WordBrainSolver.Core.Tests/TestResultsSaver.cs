@@ -7,7 +7,7 @@ namespace WordBrainSolver.Core.Tests
     public class TestResultsSaver
     {
         private const string DictionaryFileName = "testResults.csv";
-        private const string ResourcesFolderName = "Resources";
+        private const string ResourcesFolderPath = "C:/WordBrainSolverTestResults/";
 
         public void SaveResults(string time, TestCase testCase, List<string> results)
         {
@@ -19,10 +19,9 @@ namespace WordBrainSolver.Core.Tests
 
             string text = string.Format("{0},{1},{2},{3},{4}, {5}, {6}", DateTime.Now, testCase.Board, Math.Sqrt(testCase.Board.Length), testCase.Lives, time, resultsFormatted, Environment.MachineName);
 
-            string directoryPath = Path.Combine(Directory.GetCurrentDirectory(), ResourcesFolderName);
-            Directory.CreateDirectory(directoryPath);
+            Directory.CreateDirectory(ResourcesFolderPath);
 
-            string filePath = Path.Combine(directoryPath, DictionaryFileName);
+            string filePath = Path.Combine(ResourcesFolderPath, DictionaryFileName);
 
             if (!File.Exists(filePath))
             {
