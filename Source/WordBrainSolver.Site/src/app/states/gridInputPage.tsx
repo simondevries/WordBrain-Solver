@@ -1,4 +1,5 @@
 import * as React from 'react';
+import $ from 'jquery';
 
 interface IGridInputPageProps {
     setShowResultsFunction,
@@ -56,7 +57,7 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
                         this.state.result.map((res, index) => (
                             <li>
                                 {res.map((resTwo, indexTwo) => (
-                                    <input className='grid-input-field number-input-field' onChange={(event) => this.setResult(index, indexTwo, event)} maxLength={1} />
+                                    <input id={index + '' + indexTwo} className='grid-input-field number-input-field' onChange={(event) => this.setResult(index, indexTwo, event)} maxLength={1} />
                                 ))}
                             </li>
                         ))
@@ -113,10 +114,10 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
         return output;
     }
 
-    setResult(indexOne, indexTwo, event) {
+    setResult(indexOne: number, indexTwo: number, event): void {
         var updatedResult = this.state.result;
         updatedResult[indexOne][indexTwo] = event.target.value;
-        this.setState({ result: updatedResult });
+        this.moveGridInputCursorToNextInputBox(indexOne, indexTwo);
     }
 
     getResults() {
@@ -125,12 +126,12 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
         this.props.setShowResultsFunction(false);
         var array = this.state.wordLengths.slice(0);
         array.pop();
+        var headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
         return fetch('https://wordbrainspuzzlesolver.azurewebsites.net/api/FindWords', {
             method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+            headers: headers,
             body: JSON.stringify({
                 WordLength: array,
                 Board: this.resultString(),
@@ -151,4 +152,15 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
             self.props.setShowResultsFunction(true);
         })
     }
+
+    moveGridInputCursorToNextInputBox(indexOne: number, indexTwo: number) {
+        var nextLocationIndex = indexOne + '' + (indexTwo + 1);
+        if (nextLocationIndex[1] >= this.state.gridSize) {
+            if ((indexOne + 1) < this.state.gridSize) {
+                nextLocationIndex = (indexOne + 1) + '' + 0;
+            }
+        }
+        var nextInput = document.getElementById(nextLocationIndex);
+        nextInput.focus();
+    };
 }

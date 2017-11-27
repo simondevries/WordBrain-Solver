@@ -48,7 +48,7 @@ export class HomePage extends React.Component<IHomePageProps, IHomePageState> {
         </div>
         <div className={this.state.showResult && !this.state.isLoading ? 'page' : 'hidden'}>
           <GameResultsPage 
-            errorMessage={this.state.errorMessage} 
+            errorMessage={this.state.errorMessage}
             foundWords={this.state.foundWords} 
             resetFunction={this.reset} />
         </div>
