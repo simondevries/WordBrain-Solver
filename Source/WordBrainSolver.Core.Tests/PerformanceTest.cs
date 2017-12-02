@@ -23,6 +23,8 @@ namespace WordBrainSolver.Core.Tests
         {
             List<TestCase> testCases = new List<TestCase>
             {
+                new TestCase {Board = "ewcuopisclmeatkl", Lives = new [] {3, 3, 5, 5}},
+                new TestCase {Board = "kekmonlrbsuldahcdaoekperd", Lives = new[] {5, 6, 7, 7}},
                 new TestCase {Board = "ysonelnnhncaolab", Lives = new [] {5, 5, 6}},
                 new TestCase {Board = "bruoulerltnnleoi", Lives = new[] {5, 6, 5}},
                 new TestCase {Board = "beomalpblaaotthr", Lives = new[] {5, 8, 3}},
@@ -32,8 +34,6 @@ namespace WordBrainSolver.Core.Tests
                 new TestCase {Board = "tdttoeiconnebims", Lives = new[] {4, 5, 7}},
                 new TestCase {Board = "lhmbaaoeimodrear", Lives = new [] {7, 3, 6}},
                 new TestCase {Board = "batmatcat", Lives = new[] {3,3,3}},
-//                new TestCase {Board = "ewcuopisclmeatkl", Lives = new [] {3, 3, 5, 5}},
-//                new TestCase {Board = "kekmonlrbsuldahcdaoekperd", Lives = new[] {5, 6, 7, 7}}
             };
 
             foreach (TestCase testCase in testCases)
