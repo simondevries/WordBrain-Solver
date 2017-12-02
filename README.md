@@ -3,4 +3,4 @@ A web app for solving the word brain puzzle app. App is hosted at See http://wor
 
 Made using .net core for the back end and React for the front end.
 
-To run the backend use npm run serve. 
+To run the frontend use npm run serve. 
