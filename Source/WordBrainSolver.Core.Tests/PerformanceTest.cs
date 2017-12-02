@@ -23,6 +23,7 @@ namespace WordBrainSolver.Core.Tests
         {
             List<TestCase> testCases = new List<TestCase>
             {
+                new TestCase {Board = "bhyiidanrytftini", Lives = new [] {8, 8}},
                 new TestCase {Board = "ewcuopisclmeatkl", Lives = new [] {3, 3, 5, 5}},
                 new TestCase {Board = "kekmonlrbsuldahcdaoekperd", Lives = new[] {5, 6, 7, 7}},
                 new TestCase {Board = "ysonelnnhncaolab", Lives = new [] {5, 5, 6}},

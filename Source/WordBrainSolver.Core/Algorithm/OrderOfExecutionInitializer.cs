@@ -16,6 +16,11 @@ namespace WordBrainSolver.Core.Algorithm
         {
             switch (wordLengthsLength)
             {
+                case (2):
+                    return new List<List<int>> {
+                        new List<int> { 0, 1},
+                        new List<int> { 1, 0},
+                    };
                 case (3):
                     return new List<List<int>> {
                         new List<int> { 0, 1, 2},

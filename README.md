@@ -1,5 +1,6 @@
 # WordBrain-Solver
-Solves the word brain puzzle. 
-Still under construction but have a look if you like :)
+A web app for solving the word brain puzzle app. App is hosted at See http://wordbrainsolver-2366a.firebaseapp.com
 
-See http://wordbrainsolver-2366a.firebaseapp.com
+Made using .net core for the back end and React for the front end.
+
+To run the backend use npm run serve. 

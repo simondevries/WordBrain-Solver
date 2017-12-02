@@ -15,20 +15,25 @@ interface IGridInputPageState {
 }
 
 export class GridInputPage extends React.Component<IGridInputPageProps, IGridInputPageState> {
+    boardInputGrid = [];
+
     constructor() {
         super();
 
+        this.initialize();
+    }
 
+    initialize() {
         var size = '3';
-        var array = this.makeArray(size, size, '');
+        this.boardInputGrid = this.makeArray(size, size, '');
 
         this.state = {
             gridSize: size,
             wordLengths: [''],
-            result: array,
+            result: this.boardInputGrid,
             inputErrorMessage: ''
         }
-        this.setState({ result: array });
+        this.forceUpdate();
     }
     //state gridSize
     //wordLength
@@ -53,10 +58,10 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
                 <h2>Grid:</h2>
                 <ul className='input-grid'>
                     {
-                        this.state.result.map((res, index) => (
+                        this.boardInputGrid.map((res, index) => (
                             <li>
                                 {res.map((resTwo, indexTwo) => (
-                                    <input className='grid-input-field number-input-field' onChange={(event) => this.setResult(index, indexTwo, event)} maxLength={1} />
+                                    <input id={index + '' + indexTwo} className='grid-input-field number-input-field' onChange={(event) => this.setResult(index, indexTwo, event)} maxLength={1} />
                                 ))}
                             </li>
                         ))
@@ -78,8 +83,8 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
             this.setState({ inputErrorMessage: '' })
         }
 
+        this.boardInputGrid = this.makeArray(event.target.value, event.target.value, '');
         this.setState({ gridSize: event.target.value });
-        this.setState({ result: this.makeArray(event.target.value, event.target.value, '') });
     }
 
 
@@ -97,7 +102,7 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
         for (var i = 0; i < h; i++) {
             arr[i] = [];
             for (var j = 0; j < w; j++) {
-                arr[i][j] = val;
+                arr[i].push(val);
             }
         }
         return arr;
@@ -105,7 +110,7 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
 
     resultString() {
         var output = '';
-        this.state.result.forEach((res) => {
+        this.boardInputGrid.forEach((res) => {
             res.forEach((res2) => {
                 output += res2;
             });
@@ -114,9 +119,22 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
     }
 
     setResult(indexOne, indexTwo, event) {
-        var updatedResult = this.state.result;
-        updatedResult[indexOne][indexTwo] = event.target.value;
-        this.setState({ result: updatedResult });
+        this.boardInputGrid[indexOne][indexTwo] = event.target.value;
+        this.setState({ result: this.boardInputGrid });
+
+        this.moveGridInputCursorToNextInputBox(indexOne, indexTwo);
+    }
+
+    moveGridInputCursorToNextInputBox(indexOne: number, indexTwo: number) {
+        var nextLocationIndex = indexOne + '' + (indexTwo + 1);
+        if (nextLocationIndex[1] >= this.state.gridSize) {
+            if ((indexOne + 1) < this.state.gridSize) {
+                nextLocationIndex = (indexOne + 1) + '' +  0;
+            }
+        }
+
+        var nextInput = document.getElementById(nextLocationIndex);
+        nextInput.focus();
     }
 
     getResults() {
@@ -124,13 +142,11 @@ export class GridInputPage extends React.Component<IGridInputPageProps, IGridInp
         this.props.setIsLoadingFunction(true);
         this.props.setShowResultsFunction(false);
         var array = this.state.wordLengths.slice(0);
+        var myHeaders = new Headers({'Accept': 'application/json', 'Content-Type': 'application/json',});
         array.pop();
         return fetch('https://wordbrainspuzzlesolver.azurewebsites.net/api/FindWords', {
             method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+            headers: myHeaders,
             body: JSON.stringify({
                 WordLength: array,
                 Board: this.resultString(),
