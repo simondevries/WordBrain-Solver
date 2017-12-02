@@ -85,7 +85,7 @@ namespace WordBrainSolver.Core.Algorithm
 
             if (orderOfExecution == 0)
             {
-                //Test next sub iteration
+                //Test next sub iteration.
                 orderOfExecution = 0;
                 previouslyFoundWords = string.Empty;
                 orderOfExecutionCount++;

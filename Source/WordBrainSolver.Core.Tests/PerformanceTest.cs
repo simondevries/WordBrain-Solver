@@ -17,7 +17,7 @@ namespace WordBrainSolver.Core.Tests
         {
             _testResultsSaver = new TestResultsSaver();
         }
-
+        
         [Fact]
         public async void PerformanceTestOne()
         {
